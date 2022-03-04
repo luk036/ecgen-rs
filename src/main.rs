@@ -1,5 +1,5 @@
 mod gray_code;
-use crate::gray_code::brgc_gen;
+use gray_code::brgc_gen;
 mod perm;
 use crate::perm::ehr_gen;
 use crate::perm::sjt_gen;

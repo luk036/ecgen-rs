@@ -63,20 +63,18 @@ pub fn set_bipart_gen(n: usize) -> GenBoxed<usize> {
  * @return GenBoxed<usize>
  */
 pub fn gen0_even(n: usize) -> GenBoxed<usize> {
-    Gen::new_boxed(|co| {
-        async move {
-            if n < 3 {
-                return;
-            }
-            co.yield_(n - 1).await;
-            for i in gen1_even(n - 1) {
-                co.yield_(i).await;
-            } // S(n-1, k, 1).(k-1)
-            co.yield_(n).await;
-            for i in neg1_even(n - 1) {
-                co.yield_(i).await;
-            } // S'(n-1, k, 1).(k-2)
+    Gen::new_boxed(|co| async move {
+        if n < 3 {
+            return;
         }
+        co.yield_(n - 1).await;
+        for i in gen1_even(n - 1) {
+            co.yield_(i).await;
+        } // S(n-1, k, 1).(k-1)
+        co.yield_(n).await;
+        for i in neg1_even(n - 1) {
+            co.yield_(i).await;
+        } // S'(n-1, k, 1).(k-2)
     })
 }
 
@@ -125,4 +123,3 @@ pub fn neg1_even(n: usize) -> GenBoxed<usize> {
         co.yield_(2).await;
     })
 }
-

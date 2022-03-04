@@ -7,6 +7,8 @@ mod combin;
 use crate::combin::emk_gen;
 mod set_partition;
 use crate::set_partition::set_partition_gen;
+mod set_bipart;
+use crate::set_bipart::set_bipart_gen;
 
 fn print_emk() {
     let mut combin = [1, 1, 0];
@@ -44,7 +46,7 @@ fn print_ehr() {
 
 fn print_set_partition() {
     const N: usize = 5;
-    const K: usize = 3;
+    const K: usize = 2;
 
     // 0 0 0 1 2
     let mut b = [0; N + 1];
@@ -55,7 +57,20 @@ fn print_set_partition() {
     for (x, y) in set_partition_gen(N, K) {
         let old = b[x];
         b[x] = y;
-        println!("Move {} from Block {} to {}", x, old, y);
+        println!("Move {} from Block {} to Block {}", x, old, y);
+    }
+}
+
+fn print_set_bipart() {
+    const N: usize = 5;
+
+    // 0 0 0 0 0 1
+    let mut b = [0; N + 1];
+    b[N] = 1; // b[0] is unused
+    for x in set_bipart_gen(N) {
+        let old = b[x];
+        b[x] = 1 - b[x];
+        println!("Move {} from Block {} to Block {}", x, old, b[x]);
     }
 }
 
@@ -70,4 +85,6 @@ fn main() {
     print_ehr();
     println!("Set Partition-------");
     print_set_partition();
+    println!("Set Bi-Partition----");
+    print_set_bipart();
 }

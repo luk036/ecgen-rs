@@ -1,5 +1,5 @@
 mod gray_code;
-use gray_code::brgc_gen;
+use crate::gray_code::brgc_gen;
 mod perm;
 use crate::perm::ehr_gen;
 use crate::perm::sjt_gen;
@@ -44,9 +44,26 @@ fn print_ehr() {
     }
 }
 
-fn print_set_partition() {
+fn print_set_partition_odd() {
     const N: usize = 5;
-    const K: usize = 2;
+    const K: usize = 3;
+
+    // 0 0 0 1 2
+    let mut b = [0; N + 1];
+    let offset = N - K + 1;
+    for i in 1..K {
+        b[offset + i] = i;
+    }
+    for (x, y) in set_partition_gen(N, K) {
+        let old = b[x];
+        b[x] = y;
+        println!("Move {} from Block {} to Block {}", x, old, y);
+    }
+}
+
+fn print_set_partition_evn() {
+    const N: usize = 6;
+    const K: usize = 3;
 
     // 0 0 0 1 2
     let mut b = [0; N + 1];
@@ -75,16 +92,18 @@ fn print_set_bipart() {
 }
 
 fn main() {
-    println!("EMK-----------------");
+    println!("EMK---------------------");
     print_emk();
-    println!("Gray Code-----------");
+    println!("Gray Code---------------");
     print_gray_code();
-    println!("SJT-----------------");
+    println!("SJT---------------------");
     print_sjt();
-    println!("EHR-----------------");
+    println!("EHR---------------------");
     print_ehr();
-    println!("Set Partition-------");
-    print_set_partition();
-    println!("Set Bi-Partition----");
+    println!("Set Partition (Even)----");
+    print_set_partition_evn();
+    println!("Set Partition (Odd)-----");
+    print_set_partition_odd();
+    println!("Set Bi-Partition--------");
     print_set_bipart();
 }

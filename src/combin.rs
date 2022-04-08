@@ -66,7 +66,7 @@ fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::emk_gen;
 
     #[test]

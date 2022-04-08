@@ -80,7 +80,7 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::{ehr_gen, sjt_gen};
 
     #[test]

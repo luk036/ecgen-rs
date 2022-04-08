@@ -346,7 +346,7 @@ fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::set_partition_gen;
 
     #[test]

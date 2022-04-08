@@ -125,7 +125,7 @@ fn neg1_even(n: usize) -> GenBoxed<usize> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::set_bipart_gen;
 
     #[test]

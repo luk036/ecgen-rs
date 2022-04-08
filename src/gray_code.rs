@@ -22,7 +22,7 @@ pub fn brgc_gen(n: usize) -> GenBoxed<usize> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::brgc_gen;
 
     #[test]

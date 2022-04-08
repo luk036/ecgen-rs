@@ -9,3 +9,12 @@ pub use crate::gray_code::brgc_gen;
 pub use crate::perm::{ehr_gen, sjt_gen};
 pub use crate::set_bipart::set_bipart_gen;
 pub use crate::set_partition::set_partition_gen;
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

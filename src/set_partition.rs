@@ -344,3 +344,50 @@ fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
         }
     })
 }
+
+#[cfg(test)]
+mod test {
+    use super::set_partition_gen;
+
+    #[test]
+    fn test_set_partition_odd() {
+        const N: usize = 5;
+        const K: usize = 3;
+
+        // 0 0 0 1 2
+        let mut b = [0; N + 1];
+        let offset = N - K + 1;
+        for i in 1..K {
+            b[offset + i] = i;
+        }
+        let mut cnt = 1;
+        for (x, y) in set_partition_gen(N, K) {
+            let old = b[x];
+            b[x] = y;
+            println!("Move {} from Block {} to Block {}", x, old, y);
+            cnt += 1;
+        }
+        assert_eq!(cnt, 25);
+    }
+
+    #[test]
+    fn test_set_partition_even() {
+        const N: usize = 6;
+        const K: usize = 3;
+
+        // 0 0 0 1 2
+        let mut b = [0; N + 1];
+        let offset = N - K + 1;
+        for i in 1..K {
+            b[offset + i] = i;
+        }
+        let mut cnt = 1;
+        for (x, y) in set_partition_gen(N, K) {
+            let old = b[x];
+            b[x] = y;
+            println!("Move {} from Block {} to Block {}", x, old, y);
+            cnt += 1;
+        }
+        assert_eq!(cnt, 90);
+    }
+}

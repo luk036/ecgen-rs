@@ -123,3 +123,25 @@ fn neg1_even(n: usize) -> GenBoxed<usize> {
         co.yield_(2).await;
     })
 }
+
+#[cfg(test)]
+mod test {
+    use super::set_bipart_gen;
+
+    #[test]
+    fn test_set_bipart() {
+        const N: usize = 5;
+
+        // 0 0 0 0 0 1
+        let mut b = [0; N + 1];
+        b[N] = 1; // b[0] is unused
+        let mut cnt = 1;
+        for x in set_bipart_gen(N) {
+            let old = b[x];
+            b[x] = 1 - b[x];
+            println!("Move {} from Block {} to Block {}", x, old, b[x]);
+            cnt += 1;
+        }
+        assert_eq!(cnt, 15);
+    }
+}

@@ -64,3 +64,21 @@ fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
         }
     })
 }
+
+#[cfg(test)]
+mod test {
+    use super::emk_gen;
+
+    #[test]
+    fn test_emk() {
+        let mut combin = [1, 1, 0];
+        println!("{:?}", combin);
+        let mut cnt = 1;
+        for (i, j) in emk_gen(3, 2) {
+            combin.swap(i, j);
+            println!("{:?}", combin);
+            cnt += 1;
+        }
+        assert_eq!(cnt, 3);
+    }
+}

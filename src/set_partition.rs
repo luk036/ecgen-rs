@@ -47,7 +47,6 @@ use genawaiter::sync::{Gen, GenBoxed};
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
 pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if k % 2 == 0 {
@@ -69,8 +68,7 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
             if !(k > 0 && k < n) {
@@ -109,8 +107,7 @@ pub fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
             if !(k > 0 && k < n) {
@@ -149,8 +146,7 @@ pub fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if !(k > 0 && k < n) {
             return;
@@ -187,8 +183,7 @@ pub fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if !(k > 0 && k < n) {
             return;
@@ -225,8 +220,7 @@ pub fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if !(k > 1 && k < n) {
             return;
@@ -259,8 +253,7 @@ pub fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if !(k > 1 && k < n) {
             return;
@@ -293,8 +286,7 @@ pub fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if !(k > 1 && k < n) {
             return;
@@ -327,8 +319,7 @@ pub fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return GenBoxed<(usize, usize)>
  */
-#[allow(dead_code)]
-pub fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if !(k > 1 && k < n) {
             return;

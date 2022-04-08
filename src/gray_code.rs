@@ -6,7 +6,6 @@ use genawaiter::sync::{Gen, GenBoxed};
  * @param n
  * @return recursive_generator<int>
  */
-#[allow(dead_code)]
 pub fn brgc_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 1 {

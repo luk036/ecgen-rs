@@ -5,7 +5,6 @@ use genawaiter::sync::{Gen, GenBoxed};
  *
  * @param n
  */
-#[allow(dead_code)]
 pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {
@@ -43,7 +42,6 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
  * @param n
  * @return cppcoro::generator<int>
  */
-#[allow(dead_code)]
 pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {

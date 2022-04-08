@@ -7,7 +7,6 @@ use genawaiter::sync::{Gen, GenBoxed};
  * @param k
  * @return recursive_generator<ret_t>
  */
-#[allow(dead_code)]
 pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if n <= k || k == 0 {
@@ -41,8 +40,7 @@ pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
  * @param k
  * @return recursive_generator<ret_t>
  */
-#[allow(dead_code)]
-pub fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if n <= k || k == 0 {
             return;

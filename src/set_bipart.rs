@@ -47,6 +47,7 @@ use genawaiter::sync::{Gen, GenBoxed};
  * @param k
  * @return GenBoxed<usize>
  */
+#[allow(dead_code)]
 pub fn set_bipart_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         for i in gen0_even(n) {
@@ -62,6 +63,7 @@ pub fn set_bipart_gen(n: usize) -> GenBoxed<usize> {
  * @param k
  * @return GenBoxed<usize>
  */
+#[allow(dead_code)]
 pub fn gen0_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 3 {
@@ -85,6 +87,7 @@ pub fn gen0_even(n: usize) -> GenBoxed<usize> {
  * @param k
  * @return GenBoxed<usize>
  */
+#[allow(dead_code)]
 pub fn gen1_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 3 {
@@ -108,6 +111,7 @@ pub fn gen1_even(n: usize) -> GenBoxed<usize> {
  * @param k
  * @return GenBoxed<usize>
  */
+#[allow(dead_code)]
 pub fn neg1_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 3 {

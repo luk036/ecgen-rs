@@ -5,6 +5,7 @@ use genawaiter::sync::{Gen, GenBoxed};
  *
  * @param n
  */
+#[allow(dead_code)]
 pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {
@@ -42,6 +43,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
  * @param n
  * @return cppcoro::generator<int>
  */
+#[allow(dead_code)]
 pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {
@@ -77,4 +79,34 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
             }
         }
     })
+}
+
+#[cfg(test)]
+mod test {
+    use super::{ehr_gen, sjt_gen};
+
+    #[test]
+    fn test_sjt() {
+        let mut perm = ["🧧", "🥭", "🐍", "🦠"];
+        let mut cnt = 0;
+        for n in sjt_gen(perm.len()) {
+            println!("{}", perm.concat());
+            cnt += 1;
+            perm.swap(n, n + 1);
+        }
+        assert_eq!(cnt, 24);
+    }
+
+    #[test]
+    fn test_ehr() {
+        let mut perm = ["🧧", "🥭", "🐍", "🦠"];
+        let mut cnt = 1;
+        println!("{}", perm.concat());
+        for n in ehr_gen(perm.len()) {
+            perm.swap(0, n);
+            println!("{}", perm.concat());
+            cnt += 1;
+        }
+        assert_eq!(cnt, 24);
+    }
 }

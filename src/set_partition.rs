@@ -40,13 +40,55 @@ use genawaiter::sync::{Gen, GenBoxed};
 // 4. last(S(n,k,1)) = 012...(k-1)0^{n-k}
 // Note that first(S'(n,k,p)) = last(S(n,k,p))
 
-/**
- * @brief Set the partition gen object
- *
- * @param n
- * @param k
- * @return GenBoxed<(usize, usize)>
- */
+/// Set partition gen object
+///
+/// # Examples
+/// 
+/// ```
+/// use ecgen::set_partition_gen;
+///  
+/// const N: usize = 5;
+/// const K: usize = 3;
+///
+/// // 0 0 0 1 2
+/// let mut b = [0; N + 1];
+/// let offset = N - K + 1;
+/// for i in 1..K {
+///     b[offset + i] = i;
+/// }
+/// let mut cnt = 1;
+/// for (x, y) in set_partition_gen(N, K) {
+///     let old = b[x];
+///     b[x] = y;
+///     println!("Move {} from Block {} to Block {}", x, old, y);
+///     cnt += 1;
+/// }
+///
+/// assert_eq!(cnt, 25);
+/// ```
+/// 
+/// ```
+/// use ecgen::set_partition_gen;
+///  
+/// const N: usize = 6;
+/// const K: usize = 3;
+///
+/// // 0 0 0 0 1 2
+/// let mut b = [0; N + 1];
+/// let offset = N - K + 1;
+/// for i in 1..K {
+///     b[offset + i] = i;
+/// }
+/// let mut cnt = 1;
+/// for (x, y) in set_partition_gen(N, K) {
+///     let old = b[x];
+///     b[x] = y;
+///     println!("Move {} from Block {} to Block {}", x, old, y);
+///     cnt += 1;
+/// }
+///
+/// assert_eq!(cnt, 90);
+/// ```
 pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if k % 2 == 0 {
@@ -61,13 +103,7 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     })
 }
 
-/**
- * @brief S(n,k,0) even k
- *
- * @param n
- * @param k
- * @return GenBoxed<(usize, usize)>
- */
+/// S(n,k,0) even k
 fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
@@ -347,7 +383,7 @@ fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 
 #[cfg(test)]
 mod tests {
-    use super::set_partition_gen;
+    use super::*;
 
     #[test]
     fn test_set_partition_odd() {
@@ -361,7 +397,7 @@ mod tests {
             b[offset + i] = i;
         }
         let mut cnt = 1;
-        for (x, y) in set_partition_gen(N, K) {
+        for (x, y) in gen0_odd(N, K) {
             let old = b[x];
             b[x] = y;
             println!("Move {} from Block {} to Block {}", x, old, y);
@@ -372,8 +408,8 @@ mod tests {
 
     #[test]
     fn test_set_partition_even() {
-        const N: usize = 6;
-        const K: usize = 3;
+        const N: usize = 5;
+        const K: usize = 2;
 
         // 0 0 0 1 2
         let mut b = [0; N + 1];
@@ -382,12 +418,12 @@ mod tests {
             b[offset + i] = i;
         }
         let mut cnt = 1;
-        for (x, y) in set_partition_gen(N, K) {
+        for (x, y) in gen0_even(N, K) {
             let old = b[x];
             b[x] = y;
             println!("Move {} from Block {} to Block {}", x, old, y);
             cnt += 1;
         }
-        assert_eq!(cnt, 90);
+        assert_eq!(cnt, 15);
     }
 }

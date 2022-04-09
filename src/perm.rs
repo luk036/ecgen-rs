@@ -1,10 +1,22 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
-/**
- * @brief Generate all permutations by adjacent transposition
- *
- * @param n
- */
+/// Generate all permutations by adjacent transposition
+///
+/// # Examples
+/// 
+/// ```
+/// use ecgen::sjt_gen;
+///  
+/// let mut perm = ["🧧", "🥭", "🐍", "🦠"];
+/// let mut cnt = 0;
+/// for n in sjt_gen(perm.len()) {
+///     println!("{}", perm.concat());
+///     cnt += 1;
+///     perm.swap(n, n + 1);
+/// }
+///
+/// assert_eq!(cnt, 24);
+/// ```
 pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {
@@ -36,12 +48,24 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
     })
 }
 
-/**
- * @brief Generate all permutations by star transposition
- *
- * @param n
- * @return cppcoro::generator<int>
- */
+/// Generate all permutations by star transposition
+///
+/// # Examples
+/// 
+/// ```
+/// use ecgen::ehr_gen;
+///  
+/// let mut perm = ["🧧", "🥭", "🐍", "🦠"];
+/// let mut cnt = 1;
+/// println!("{}", perm.concat());
+/// for n in ehr_gen(perm.len()) {
+///     perm.swap(0, n);
+///     println!("{}", perm.concat());
+///     cnt += 1;
+/// }
+///
+/// assert_eq!(cnt, 24);
+/// ```
 pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {
@@ -79,32 +103,3 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
     })
 }
 
-#[cfg(test)]
-mod tests {
-    use super::{ehr_gen, sjt_gen};
-
-    #[test]
-    fn test_sjt() {
-        let mut perm = ["🧧", "🥭", "🐍", "🦠"];
-        let mut cnt = 0;
-        for n in sjt_gen(perm.len()) {
-            println!("{}", perm.concat());
-            cnt += 1;
-            perm.swap(n, n + 1);
-        }
-        assert_eq!(cnt, 24);
-    }
-
-    #[test]
-    fn test_ehr() {
-        let mut perm = ["🧧", "🥭", "🐍", "🦠"];
-        let mut cnt = 1;
-        println!("{}", perm.concat());
-        for n in ehr_gen(perm.len()) {
-            perm.swap(0, n);
-            println!("{}", perm.concat());
-            cnt += 1;
-        }
-        assert_eq!(cnt, 24);
-    }
-}

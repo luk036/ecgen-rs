@@ -1,11 +1,23 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
-/**
- * @brief Binary Reflexed Gray Code Generator
- *
- * @param n
- * @return recursive_generator<int>
- */
+/// Binary Reflexed Gray Code Generator
+///
+/// # Examples
+/// 
+/// ```
+/// use ecgen::brgc_gen;
+///  
+/// let mut lst = ["⬜"; 3];
+/// println!("{}", lst.concat());
+/// let mut cnt = 1;
+/// for n in brgc_gen(lst.len()) {
+///     lst[n] = if lst[n] == "⬜" { "⬛" } else { "⬜" };
+///     println!("{}", lst.concat());
+///     cnt += 1;
+/// }
+///
+/// assert_eq!(cnt, 8);
+/// ```
 pub fn brgc_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 1 {
@@ -21,20 +33,3 @@ pub fn brgc_gen(n: usize) -> GenBoxed<usize> {
     })
 }
 
-#[cfg(test)]
-mod tests {
-    use super::brgc_gen;
-
-    #[test]
-    fn test_gray_code() {
-        let mut lst = ["⬜"; 3];
-        println!("{}", lst.concat());
-        let mut cnt = 1;
-        for n in brgc_gen(lst.len()) {
-            lst[n] = if lst[n] == "⬜" { "⬛" } else { "⬜" };
-            println!("{}", lst.concat());
-            cnt += 1;
-        }
-        assert_eq!(cnt, 8);
-    }
-}

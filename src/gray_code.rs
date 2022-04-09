@@ -3,7 +3,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// Binary Reflexed Gray Code Generator
 ///
 /// # Examples
-/// 
+///
 /// ```
 /// use ecgen::brgc_gen;
 ///  
@@ -32,4 +32,3 @@ pub fn brgc_gen(n: usize) -> GenBoxed<usize> {
         }
     })
 }
-

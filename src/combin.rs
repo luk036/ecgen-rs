@@ -1,12 +1,23 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
-/**
- * @brief Generate all combinations by homogeneous revolving-door
- *
- * @param n
- * @param k
- * @return recursive_generator<ret_t>
- */
+/// Generate all combinations by homogeneous revolving-door
+///
+/// # Examples
+///
+/// ```
+/// use ecgen::emk_gen;
+///  
+/// let mut combin = [1, 1, 0];
+/// println!("{:?}", combin);
+/// let mut cnt = 1;
+/// for (i, j) in emk_gen(3, 2) {
+///     combin.swap(i, j);
+///     println!("{:?}", combin);
+///     cnt += 1;
+/// }
+///
+/// assert_eq!(cnt, 3);
+/// ```
 pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if n <= k || k == 0 {
@@ -32,14 +43,7 @@ pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     })
 }
 
-/**
- * @brief Generate all combinations in reverse order by homogeneous
- * revolving-door
- *
- * @param n
- * @param k
- * @return recursive_generator<ret_t>
- */
+/// Generate all combinations by homogeneous revolving-door
 fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if n <= k || k == 0 {
@@ -63,22 +67,4 @@ fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
             }
         }
     })
-}
-
-#[cfg(test)]
-mod tests {
-    use super::emk_gen;
-
-    #[test]
-    fn test_emk() {
-        let mut combin = [1, 1, 0];
-        println!("{:?}", combin);
-        let mut cnt = 1;
-        for (i, j) in emk_gen(3, 2) {
-            combin.swap(i, j);
-            println!("{:?}", combin);
-            cnt += 1;
-        }
-        assert_eq!(cnt, 3);
-    }
 }

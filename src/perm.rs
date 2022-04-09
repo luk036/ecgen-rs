@@ -3,7 +3,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// Generate all permutations by adjacent transposition
 ///
 /// # Examples
-/// 
+///
 /// ```
 /// use ecgen::sjt_gen;
 ///  
@@ -51,7 +51,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 /// Generate all permutations by star transposition
 ///
 /// # Examples
-/// 
+///
 /// ```
 /// use ecgen::ehr_gen;
 ///  
@@ -102,4 +102,3 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
         }
     })
 }
-

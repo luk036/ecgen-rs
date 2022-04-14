@@ -10,7 +10,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// const N: usize = 5;
 /// const K: usize = 3;
 ///
-/// // 0 0 0 1 
+/// // 0 0 0 1
 /// let mut b = [0; N + 1];
 /// let offset = N - K + 1;
 /// for i in 1..K {
@@ -103,4 +103,3 @@ fn neg1_even(n: usize) -> GenBoxed<usize> {
         co.yield_(2).await;
     })
 }
-

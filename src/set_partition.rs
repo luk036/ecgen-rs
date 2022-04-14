@@ -30,7 +30,6 @@
 /// reversing sublists. Lecture Notes in Computer Science, #762,
 /// 201-208. Also downloadable from
 /// <http://webhome.cs.uvic.ca/~ruskey/Publications/SimpleGray/SimpleGray.html>
-
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// The lists S(n,k,0) and S(n,k,1) satisfy the following properties.

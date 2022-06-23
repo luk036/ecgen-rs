@@ -25,7 +25,7 @@ jobs:
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v1.0.2
         with:
-          token: ${{44821da8-3540-43da-a13c-eb6158bbee7c}}
+          token: 44821da8-3540-43da-a13c-eb6158bbee7c
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v1

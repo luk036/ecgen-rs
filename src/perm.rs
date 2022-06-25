@@ -7,7 +7,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// ```
 /// use ecgen::sjt_gen;
 ///  
-/// let mut perm = ["🧧", "🥭", "🐍", "🦠"];
+/// let mut perm = ["🍉", "🍌", "🍇", "🍏"];
 /// let mut cnt = 0;
 /// for n in sjt_gen(perm.len()) {
 ///     println!("{}", perm.concat());
@@ -55,7 +55,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 /// ```
 /// use ecgen::ehr_gen;
 ///  
-/// let mut perm = ["🧧", "🥭", "🐍", "🦠"];
+/// let mut perm = ["🍉", "🍌", "🍇", "🍏"];
 /// let mut cnt = 1;
 /// println!("{}", perm.concat());
 /// for n in ehr_gen(perm.len()) {

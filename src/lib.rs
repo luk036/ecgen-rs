@@ -4,11 +4,11 @@ pub mod perm;
 pub mod set_bipart;
 pub mod set_partition;
 
-pub use crate::combin::emk_gen;
+pub use crate::combin::{emk_gen, comb};
 pub use crate::gray_code::brgc_gen;
-pub use crate::perm::{ehr_gen, sjt_gen};
-pub use crate::set_bipart::set_bipart_gen;
-pub use crate::set_partition::set_partition_gen;
+pub use crate::perm::{ehr_gen, sjt_gen, factorial};
+pub use crate::set_bipart::{set_bipart_gen, stirling2nd2};
+pub use crate::set_partition::{set_partition_gen, stirling2nd};
 
 #[cfg(test)]
 mod tests {
@@ -35,7 +35,7 @@ mod tests {
         for _n in sjt_gen(4) {
             cnt += 1;
         }
-        assert_eq!(cnt, 24);
+        assert_eq!(cnt, factorial(4));
     }
 
     #[test]
@@ -44,7 +44,7 @@ mod tests {
         for _n in ehr_gen(4) {
             cnt += 1;
         }
-        assert_eq!(cnt, 24);
+        assert_eq!(cnt, factorial(4));
     }
 
     #[test]
@@ -53,7 +53,7 @@ mod tests {
         for (_x, _y) in emk_gen(6, 3) {
             cnt += 1;
         }
-        assert_eq!(cnt, 20);
+        assert_eq!(cnt, comb(6, 3));
     }
 
     #[test]
@@ -74,7 +74,7 @@ mod tests {
             println!("Move {} from Block {} to Block {}", x, old, y);
             cnt += 1;
         }
-        assert_eq!(cnt, 15);
+        assert_eq!(cnt, stirling2nd(5, 2));
     }
 
     #[test]
@@ -91,6 +91,6 @@ mod tests {
             println!("Move {} from Block {} to Block {}", x, old, b[x]);
             cnt += 1;
         }
-        assert_eq!(cnt, 15);
+        assert_eq!(cnt, stirling2nd2(5));
     }
 }

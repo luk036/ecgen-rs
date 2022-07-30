@@ -1,5 +1,23 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
+/// Number of combinations.
+///
+/// # Examples
+///
+/// ```
+/// use ecgen::comb;
+///  
+/// assert_eq!(comb(3, 2), 3);
+/// assert_eq!(comb(6, 4), comb(6, 2));
+/// ```
+pub const fn comb(n: usize, k: usize) -> usize {
+    if k >= n || k == 0 {
+        1
+    } else {
+        comb(n - 1, k - 1) + comb(n - 1, k)
+    }
+}
+
 /// Generate all combinations by homogeneous revolving-door
 ///
 /// # Examples

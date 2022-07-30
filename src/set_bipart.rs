@@ -1,31 +1,25 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
-/// Set partition gen object
+/// Stirling number of second kind (k = 2).
 ///
 /// # Examples
 ///
 /// ```
-/// use ecgen::set_partition_gen;
+/// use ecgen::stirling2nd2;
 ///  
-/// const N: usize = 5;
-/// const K: usize = 3;
-///
-/// // 0 0 0 1
-/// let mut b = [0; N + 1];
-/// let offset = N - K + 1;
-/// for i in 1..K {
-///     b[offset + i] = i;
-/// }
-/// let mut cnt = 1;
-/// for (x, y) in set_partition_gen(N, K) {
-///     let old = b[x];
-///     b[x] = y;
-///     println!("Move {} from Block {} to Block {}", x, old, y);
-///     cnt += 1;
-/// }
-///
-/// assert_eq!(cnt, 25);
+/// assert_eq!(stirling2nd2(5), 15);
 /// ```
+pub const fn stirling2nd2(n: usize) -> usize {
+    if n <= 2 {
+        1
+    } else {
+        1 + 2 * stirling2nd2(n - 1)
+    }
+}
+
+/// Set partition gen object
+///
+/// # Examples
 ///
 /// ```
 /// use ecgen::set_bipart_gen;

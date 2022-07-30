@@ -32,6 +32,23 @@
 /// <http://webhome.cs.uvic.ca/~ruskey/Publications/SimpleGray/SimpleGray.html>
 use genawaiter::sync::{Gen, GenBoxed};
 
+/// Stirling number of second kind.
+///
+/// # Examples
+///
+/// ```
+/// use ecgen::stirling2nd;
+///  
+/// assert_eq!(stirling2nd(5, 3), 25);
+/// ```
+pub const fn stirling2nd(n: usize, k: usize) -> usize {
+    if k >= n || k <= 1 {
+        1
+    } else {
+        stirling2nd(n - 1, k - 1) + k * stirling2nd(n - 1, k)
+    }
+}
+
 /// The lists S(n,k,0) and S(n,k,1) satisfy the following properties.
 /// 1. Successive RG sequences differ in exactly one position.
 /// 2. first(S(n,k,0)) = first(S(n,k,1)) = 0^{n-k}0123...(k-1)
@@ -59,7 +76,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// for (x, y) in set_partition_gen(N, K) {
 ///     let old = b[x];
 ///     b[x] = y;
-///     println!("Move {} from Block {} to Block {}", x, old, y);
+///     println!("Move {x} from Block {old} to Block {y}");
 ///     cnt += 1;
 /// }
 ///
@@ -82,7 +99,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// for (x, y) in set_partition_gen(N, K) {
 ///     let old = b[x];
 ///     b[x] = y;
-///     println!("Move {} from Block {} to Block {}", x, old, y);
+///     println!("Move {x} from Block {old} to Block {y}");
 ///     cnt += 1;
 /// }
 ///
@@ -357,9 +374,9 @@ mod tests {
         for (x, y) in gen0_odd(N, K) {
             let old = b[x];
             b[x] = y;
-            println!("Move {} from Block {} to Block {}", x, old, y);
+            println!("Move {x} from Block {old} to Block {y}");
             cnt += 1;
         }
-        assert_eq!(cnt, 25);
+        assert_eq!(cnt, stirling2nd(N, K));
     }
 }

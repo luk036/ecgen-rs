@@ -1,5 +1,32 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
+// const fn factorial2<const N: usize>() -> usize {
+//     if N < 2 {
+//         1
+//     } else {
+//         const M: usize = N - 1;
+//         N * factorial2::<M>()
+//     }
+// }
+
+/// Factorial (number of permutations).
+///
+/// # Examples
+///
+/// ```
+/// use ecgen::factorial;
+///  
+/// assert_eq!(factorial(5), 120);
+/// assert_eq!(factorial(1), 1);
+/// ```
+pub const fn factorial(n: usize) -> usize {
+    if n < 2 {
+        1
+    } else {
+        n * factorial(n - 1)
+    }
+}
+
 /// Generate all permutations by adjacent transposition
 ///
 /// # Examples

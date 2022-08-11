@@ -9,6 +9,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///  
 /// assert_eq!(stirling2nd2(5), 15);
 /// ```
+#[inline]
 pub const fn stirling2nd2(n: usize) -> usize {
     if n <= 2 {
         1
@@ -48,6 +49,7 @@ pub fn set_bipart_gen(n: usize) -> GenBoxed<usize> {
 }
 
 /// S(n,k,0) even k
+#[inline]
 fn gen0_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 3 {
@@ -65,6 +67,7 @@ fn gen0_even(n: usize) -> GenBoxed<usize> {
 }
 
 /// S(n,k,1) even k
+#[inline]
 fn gen1_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 3 {
@@ -82,6 +85,7 @@ fn gen1_even(n: usize) -> GenBoxed<usize> {
 }
 
 /// S'(n,k,1) even k
+#[inline]
 fn neg1_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
         if n < 3 {

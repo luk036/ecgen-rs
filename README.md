@@ -1,4 +1,5 @@
-[![codecov](https://codecov.io/gh/luk036/ecgen-rs/branch/master/graph/badge.svg?token=LDfhavKt45)](https://codecov.io/gh/luk036/ecgen-rs)
+[![codecov](https://codecov.io/gh/luk036/ellalgo-rs/branch/master/graph/badge.svg?token=KZnX3rl1gV)](https://codecov.io/gh/luk036/ecgen-rs)
 
-# ecgen-rs
-Enumerative Combinatoric Generation Rust Code
+# 🔢 ecegen-rs
+
+> Enumerative Combinatoric Generator Rust Code

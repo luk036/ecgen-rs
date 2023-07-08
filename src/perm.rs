@@ -9,7 +9,15 @@ use genawaiter::sync::{Gen, GenBoxed};
 //     }
 // }
 
-/// Factorial (number of permutations).
+/// The `factorial` function calculates the factorial of a given number.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the number for which we want to calculate the factorial.
+/// 
+/// Returns:
+/// 
+/// The `factorial` function returns the factorial of the input number `n`.
 ///
 /// # Examples
 ///
@@ -28,6 +36,17 @@ pub const fn factorial(n: usize) -> usize {
 }
 
 /// Generate all permutations by adjacent transposition
+/// 
+/// The `sjt_gen` function in Rust generates all permutations of a given length using the
+/// Steinhaus-Johnson-Trotter algorithm.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the number of elements in the permutation.
+/// 
+/// Returns:
+/// 
+/// The function `sjt_gen` returns a boxed generator that yields permutations of indices.
 ///
 /// # Examples
 ///
@@ -76,6 +95,19 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 }
 
 /// Generate all permutations by star transposition
+/// 
+/// The `ehr_gen` function generates all permutations of a given length using the star transposition
+/// algorithm.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the number of elements in the permutation. In the given example,
+/// `n` is set to 4, so it generates permutations of 4 elements.
+/// 
+/// Returns:
+/// 
+/// The function `ehr_gen` returns a `GenBoxed<usize>`, which is a boxed generator that yields `usize`
+/// values.
 ///
 /// # Examples
 ///

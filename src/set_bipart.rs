@@ -1,7 +1,18 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
-/// Stirling number of second kind (k = 2).
-///
+/// The `stirling2nd2` function calculates the Stirling number of the second kind specifically for k =
+/// 2.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the number of elements in a set. The `stirling2nd2` function
+/// calculates the Stirling number of the second kind specifically for `k = 2`, which represents the
+/// number of non-empty subsets that can be formed from a set of `n` elements
+/// 
+/// Returns:
+/// 
+/// The `stirling2nd2` function returns the Stirling number of the second kind specifically for k = 2.
+/// 
 /// # Examples
 ///
 /// ```
@@ -18,7 +29,15 @@ pub const fn stirling2nd2(n: usize) -> usize {
     }
 }
 
-/// Set partition gen object
+/// The `set_bipart_gen` function generates a sequence of numbers representing moves between two blocks.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the number of elements in the set that you want to partition.
+/// 
+/// Returns:
+/// 
+/// The function `set_bipart_gen` returns a boxed generator of type `GenBoxed<usize>`.
 ///
 /// # Examples
 ///

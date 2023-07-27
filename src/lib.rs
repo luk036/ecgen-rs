@@ -15,12 +15,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-
-    #[test]
     fn test_brgc() {
         let mut cnt = 1;
         for _n in brgc_gen(3) {

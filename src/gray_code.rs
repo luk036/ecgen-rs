@@ -1,13 +1,13 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `brgc_gen` function generates a binary reflexed gray code sequence of length `n`.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `n`: The parameter `n` represents the number of bits in the binary reflexed gray code sequence.
-/// 
+///
 /// Returns:
-/// 
+///
 /// The function `brgc_gen` returns a `GenBoxed<usize>`, which is a boxed generator that yields values
 /// of type `usize`.
 ///

@@ -33,19 +33,19 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// Stirling number of second kind.
-/// 
+///
 /// The `stirling2nd` function calculates the Stirling number of the second kind for given values of `n`
 /// and `k`.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `n`: The parameter `n` represents the total number of elements in a set, and `k` represents the
 /// number of non-empty subsets that can be formed from the set.
 /// * `k`: The parameter `k` represents the number of non-empty subsets that need to be formed from a
 /// set of `n` elements.
-/// 
+///
 /// Returns:
-/// 
+///
 /// The function `stirling2nd` returns the Stirling number of the second kind for the given values of
 /// `n` and `k`.
 ///
@@ -72,18 +72,18 @@ pub const fn stirling2nd(n: usize, k: usize) -> usize {
 /// Note that first(S'(n,k,p)) = last(S(n,k,p))
 
 /// Set partition
-/// 
+///
 /// The `set_partition_gen` function generates all possible moves in a set partition of size `n` into
 /// `k` blocks.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `n`: The parameter `n` represents the total number of elements in the set that we want to
 /// partition.
 /// * `k`: The parameter `k` represents the number of blocks in the set partition.
-/// 
+///
 /// Returns:
-/// 
+///
 /// The function `set_partition_gen` returns a boxed generator that yields tuples of `(usize, usize)`.
 ///
 /// # Examples

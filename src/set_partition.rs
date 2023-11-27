@@ -143,7 +143,7 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
                 co.yield_((i, j)).await;
             }
         } else {
-            if !(k < n) {
+            if k >= n {
                 return;
             }
             for (i, j) in gen0_odd(n, k) {
@@ -216,7 +216,7 @@ fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,1) even k
 fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k < n) {
+        if k >= n {
             return;
         }
         for (i, j) in gen1_odd(n - 1, k - 1) {
@@ -247,7 +247,7 @@ fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,1) even k
 fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k < n) {
+        if k >= n {
             return;
         }
         for i in (1..k - 2).step_by(2) {
@@ -278,7 +278,7 @@ fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,0) odd k
 fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 2) {
+        if k <= 2 {
             return;
         }
         for (i, j) in gen1_even(n - 1, k - 1) {
@@ -305,7 +305,7 @@ fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,0) odd k
 fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 2) {
+        if k <= 2 {
             return;
         }
         for i in (1..k - 1).step_by(2) {

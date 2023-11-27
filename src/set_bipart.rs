@@ -33,7 +33,7 @@ pub const fn stirling2nd2(n: usize) -> usize {
 ///
 /// Arguments:
 ///
-/// * `n`: The parameter `n` represents the number of elements in the set that you want to partition.
+/// * `n`: The parameter `n` represents the number of elements in the set that you want to bipart.
 ///
 /// Returns:
 ///
@@ -119,4 +119,54 @@ fn neg1_even(n: usize) -> GenBoxed<usize> {
         }
         co.yield_(2).await;
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_set_bipart_odd() {
+        const N: usize = 11;
+
+        // 0 0 0 0 0 1
+        let mut b = [0; N + 1];
+        b[N] = 1; // b[0] is unused
+        let mut cnt = 1;
+        for x in set_bipart_gen(N) {
+            let old = b[x];
+            b[x] = 1 - b[x];
+            println!("Move {} from Block {} to Block {}", x, old, b[x]);
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd2(N));
+    }
+
+    #[test]
+    fn test_set_bipart_even() {
+        const N: usize = 10;
+
+        // 0 0 0 0 0 1
+        let mut b = [0; N + 1];
+        b[N] = 1; // b[0] is unused
+        let mut cnt = 1;
+        for x in set_bipart_gen(N) {
+            let old = b[x];
+            b[x] = 1 - b[x];
+            println!("Move {} from Block {} to Block {}", x, old, b[x]);
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd2(N));
+    }
+
+    #[test]
+    fn test_set_bipart_special() {
+        const N: usize = 2;
+
+        let mut cnt = 1;
+        for _x in set_bipart_gen(N) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd2(N));
+    }
 }

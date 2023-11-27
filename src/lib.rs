@@ -87,4 +87,15 @@ mod tests {
         }
         assert_eq!(cnt, stirling2nd2(5));
     }
+
+    #[test]
+    fn test_set_bipart_special() {
+        const N: usize = 2;
+
+        let mut cnt = 1;
+        for _x in set_bipart_gen(N) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd2(N));
+    }
 }

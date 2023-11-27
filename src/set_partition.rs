@@ -136,10 +136,16 @@ pub const fn stirling2nd(n: usize, k: usize) -> usize {
 pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if k % 2 == 0 {
+            if !(k > 0 && k < n) {
+                return;
+            }
             for (i, j) in gen0_even(n, k) {
                 co.yield_((i, j)).await;
             }
         } else {
+            if !(k < n) {
+                return;
+            }
             for (i, j) in gen0_odd(n, k) {
                 co.yield_((i, j)).await;
             }
@@ -151,9 +157,6 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
-            if !(k > 0 && k < n) {
-                return;
-            }
             for (i, j) in gen0_odd(n - 1, k - 1) {
                 co.yield_((i, j)).await;
             } // S(n-1, k-1, 0).(k-1)
@@ -184,9 +187,6 @@ fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
-            if !(k > 0 && k < n) {
-                return;
-            }
             for i in (1..k - 2).step_by(2) {
                 for (i, j) in gen1_even(n - 1, k) {
                     co.yield_((i, j)).await;
@@ -216,7 +216,7 @@ fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,1) even k
 fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 0 && k < n) {
+        if !(k < n) {
             return;
         }
         for (i, j) in gen1_odd(n - 1, k - 1) {
@@ -247,7 +247,7 @@ fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,1) even k
 fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 0 && k < n) {
+        if !(k < n) {
             return;
         }
         for i in (1..k - 2).step_by(2) {
@@ -278,7 +278,7 @@ fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,0) odd k
 fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 1 && k < n) {
+        if !(k > 2) {
             return;
         }
         for (i, j) in gen1_even(n - 1, k - 1) {
@@ -305,7 +305,7 @@ fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,0) odd k
 fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 1 && k < n) {
+        if !(k > 2) {
             return;
         }
         for i in (1..k - 1).step_by(2) {
@@ -332,7 +332,7 @@ fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,1) odd k
 fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 1 && k < n) {
+        if !(k > 2 && k < n) {
             return;
         }
         for (i, j) in gen0_even(n - 1, k - 1) {
@@ -359,7 +359,7 @@ fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,1) odd k
 fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 1 && k < n) {
+        if !(k > 2 && k < n) {
             return;
         }
         for i in (1..k - 1).step_by(2) {
@@ -388,9 +388,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_set_partition_odd() {
-        const N: usize = 5;
-        const K: usize = 3;
+    fn test_set_partition_odd_odd() {
+        const N: usize = 11;
+        const K: usize = 5;
 
         // 0 0 0 1 2
         let mut b = [0; N + 1];
@@ -399,10 +399,85 @@ mod tests {
             b[offset + i] = i;
         }
         let mut cnt = 1;
-        for (x, y) in gen0_odd(N, K) {
+        for (x, y) in set_partition_gen(N, K) {
             let old = b[x];
             b[x] = y;
             println!("Move {x} from Block {old} to Block {y}");
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd(N, K));
+    }
+
+    #[test]
+    fn test_set_partition_even_odd() {
+        const N: usize = 10;
+        const K: usize = 5;
+
+        // 0 0 0 1 2
+        let mut b = [0; N + 1];
+        let offset = N - K + 1;
+        for i in 1..K {
+            b[offset + i] = i;
+        }
+        let mut cnt = 1;
+        for (x, y) in set_partition_gen(N, K) {
+            let old = b[x];
+            b[x] = y;
+            println!("Move {x} from Block {old} to Block {y}");
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd(N, K));
+    }
+
+    #[test]
+    fn test_set_partition_odd_even() {
+        const N: usize = 11;
+        const K: usize = 4;
+
+        // 0 0 0 1 2
+        let mut b = [0; N + 1];
+        let offset = N - K + 1;
+        for i in 1..K {
+            b[offset + i] = i;
+        }
+        let mut cnt = 1;
+        for (x, y) in set_partition_gen(N, K) {
+            let old = b[x];
+            b[x] = y;
+            println!("Move {x} from Block {old} to Block {y}");
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd(N, K));
+    }
+
+    #[test]
+    fn test_set_partition_even_even() {
+        const N: usize = 10;
+        const K: usize = 4;
+
+        // 0 0 0 1 2
+        let mut b = [0; N + 1];
+        let offset = N - K + 1;
+        for i in 1..K {
+            b[offset + i] = i;
+        }
+        let mut cnt = 1;
+        for (x, y) in set_partition_gen(N, K) {
+            let old = b[x];
+            b[x] = y;
+            println!("Move {x} from Block {old} to Block {y}");
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd(N, K));
+    }
+
+    #[test]
+    fn test_set_partition_special() {
+        const N: usize = 6;
+        const K: usize = 6;
+
+        let mut cnt = 1;
+        for (_x, _y) in set_partition_gen(N, K) {
             cnt += 1;
         }
         assert_eq!(cnt, stirling2nd(N, K));

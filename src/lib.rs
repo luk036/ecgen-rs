@@ -4,7 +4,7 @@ pub mod perm;
 pub mod set_bipart;
 pub mod set_partition;
 
-pub use crate::combin::{comb, emk_gen};
+pub use crate::combin::{comb, emk_comb_gen};
 pub use crate::gray_code::brgc_gen;
 pub use crate::perm::{ehr_gen, factorial, sjt_gen};
 pub use crate::set_bipart::{set_bipart_gen, stirling2nd2};
@@ -42,33 +42,51 @@ mod tests {
     }
 
     #[test]
-    fn test_emk() {
+    fn test_emk_even_odd() {
         let mut cnt = 1;
-        for (_x, _y) in emk_gen(6, 3) {
+        for (_x, _y) in emk_comb_gen(16, 5) {
             cnt += 1;
         }
-        assert_eq!(cnt, comb(6, 3));
+        assert_eq!(cnt, comb(16, 5));
     }
 
     #[test]
-    fn test_set_partition_even() {
-        const N: usize = 5;
-        const K: usize = 2;
-
-        // 0 0 0 1 2
-        let mut b = [0; N + 1];
-        let offset = N - K + 1;
-        for i in 1..K {
-            b[offset + i] = i;
-        }
+    fn test_emk_odd_odd() {
         let mut cnt = 1;
-        for (x, y) in set_partition_gen(N, K) {
-            let old = b[x];
-            b[x] = y;
-            println!("Move {} from Block {} to Block {}", x, old, y);
+        for (_x, _y) in emk_comb_gen(15, 5) {
             cnt += 1;
         }
-        assert_eq!(cnt, stirling2nd(5, 2));
+        assert_eq!(cnt, comb(15, 5));
+    }
+
+    #[test]
+    fn test_emk_even_even() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(16, 4) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(16, 4));
+    }
+
+    #[test]
+    fn test_emk_odd_even() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(15, 4) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(15, 4));
+    }
+
+    #[test]
+    fn test_set_partition_special() {
+        const N: usize = 2;
+        const K: usize = 2;
+
+        let mut cnt = 1;
+        for (_x, _y) in set_partition_gen(N, K) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd(2, 2));
     }
 
     #[test]

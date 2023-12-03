@@ -27,13 +27,21 @@ pub const fn comb(n: usize, k: usize) -> usize {
     if k >= n || k == 0 {
         1
     } else {
-        comb(n - 1, k - 1) + comb(n - 1, k)
+        comb_recur(n, k)
     }
+}
+
+#[inline]
+const fn comb_recur(n: usize, k: usize) -> usize {
+    let n = n - 1;
+    let a = if k == 1 { 1 } else { comb_recur(n, k - 1) };
+    let b = if k == n { 1 } else { comb_recur(n, k) };
+    a + b
 }
 
 /// Generate all combinations by homogeneous revolving-door
 ///
-/// The `emk_gen` function generates all combinations by using a homogeneous revolving-door algorithm.
+/// The `emk_comb_gen` function generates all combinations by using a homogeneous revolving-door algorithm.
 ///
 /// Arguments:
 ///
@@ -49,12 +57,12 @@ pub const fn comb(n: usize, k: usize) -> usize {
 /// # Examples
 ///
 /// ```
-/// use ecgen::emk_gen;
+/// use ecgen::emk_comb_gen;
 ///  
 /// let mut combin = [1, 1, 0];
 /// println!("{:?}", combin);
 /// let mut cnt = 1;
-/// for (i, j) in emk_gen(3, 2) {
+/// for (i, j) in emk_comb_gen(3, 2) {
 ///     combin.swap(i, j);
 ///     println!("{:?}", combin);
 ///     cnt += 1;
@@ -62,7 +70,7 @@ pub const fn comb(n: usize, k: usize) -> usize {
 ///
 /// assert_eq!(cnt, 3);
 /// ```
-pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if n <= k || k == 0 {
             return;
@@ -71,18 +79,146 @@ pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
             for i in 0..(n - 1) {
                 co.yield_((i, i + 1)).await;
             }
+            return;
+        }
+        if k % 2 == 0 {
+            for (i, j) in emk_gen_even(n, k) {
+                co.yield_((i, j)).await;
+            }
         } else {
-            for (i, j) in emk_gen(n - 1, k) {
+            for (i, j) in emk_gen_odd(n, k) {
+                co.yield_((i, j)).await;
+            }
+
+        }
+    })
+}
+
+/// Generate all combinations by homogeneous revolving-door
+///
+/// The `emk_comb_gen` function generates all combinations by using a homogeneous revolving-door algorithm.
+///
+/// Arguments:
+///
+/// * `n`: The parameter `n` represents the total number of elements in the combination set. It
+/// determines the range of indices that can be used in the combinations.
+/// * `k`: The parameter `k` represents the number of elements that will be swapped in each combination.
+///
+/// Returns:
+///
+/// The function `emk_gen` returns a `GenBoxed<(usize, usize)>`, which is a boxed generator that yields
+/// tuples of two `usize` values.
+///
+pub fn emk_gen_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+    Gen::new_boxed(|co| async move {
+        if k >= n - 1 {
+            co.yield_((n - 2, n - 1)).await;
+        } else {
+            for (i, j) in emk_gen_even(n - 1, k) {
                 co.yield_((i, j)).await;
             }
             co.yield_((n - 2, n - 1)).await;
-            for (i, j) in emk_neg(n - 2, k - 1) {
+            if k == 2 {
+                for i in (0..(n - 3)).rev() {
+                    co.yield_((i + 1, i)).await;
+                }
+            } else {
+                for (i, j) in emk_neg_odd(n - 2, k - 1) {
+                    co.yield_((i, j)).await;
+                }
+            }
+        }
+        co.yield_((k - 2, n - 2)).await;
+
+        if k != 2 {
+            for (i, j) in emk_gen_even(n - 2, k - 2) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((k - 2, n - 2)).await;
-            for (i, j) in emk_gen(n - 2, k - 2) {
+        }
+    })
+}
+
+/// Generate all combinations by homogeneous revolving-door
+///
+/// The `emk_comb_gen` function generates all combinations by using a homogeneous revolving-door algorithm.
+///
+/// Arguments:
+///
+/// * `n`: The parameter `n` represents the total number of elements in the combination set. It
+/// determines the range of indices that can be used in the combinations.
+/// * `k`: The parameter `k` represents the number of elements that will be swapped in each combination.
+///
+/// Returns:
+///
+/// The function `emk_gen` returns a `GenBoxed<(usize, usize)>`, which is a boxed generator that yields
+/// tuples of two `usize` values.
+///
+pub fn emk_gen_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+    Gen::new_boxed(|co| async move {
+        if k < n - 1 {
+            for (i, j) in emk_gen_odd(n - 1, k) {
                 co.yield_((i, j)).await;
             }
+            co.yield_((n - 2, n - 1)).await;
+            for (i, j) in emk_neg_even(n - 2, k - 1) {
+                co.yield_((i, j)).await;
+            }
+        } else {
+            co.yield_((n - 2, n - 1)).await;
+        }
+        co.yield_((k - 2, n - 2)).await;
+
+        if k == 3 {
+            for i in 0..(n - 3) {
+                co.yield_((i, i + 1)).await;
+            }
+        } else {
+            for (i, j) in emk_gen_odd(n - 2, k - 2) {
+                co.yield_((i, j)).await;
+            }
+        }
+    })
+}
+
+
+/// Generate all combinations by homogeneous revolving-door
+///
+/// The function `emk_neg` generates all combinations by using a homogeneous revolving-door algorithm.
+///
+/// Arguments:
+///
+/// * `n`: The parameter `n` represents the total number of elements in the set from which combinations
+/// are generated.
+/// * `k`: The parameter `k` represents the number of elements in each combination.
+///
+/// Returns:
+///
+/// The function `emk_neg` returns a generator that yields all combinations by homogeneous
+/// revolving-door. The combinations are represented as tuples of two usize values.
+fn emk_neg_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+    Gen::new_boxed(|co| async move {
+        if k != 2 {
+            for (i, j) in emk_neg_even(n - 2, k - 2) {
+                co.yield_((i, j)).await;
+            }
+        }
+        co.yield_((n - 2, k - 2)).await;
+        if k < n - 1 {
+            if k != 2 {
+                for (i, j) in emk_gen_odd(n - 2, k - 1) {
+                    co.yield_((i, j)).await;
+                }
+            } else {
+                for i in 0..(n - 3) {
+                    co.yield_((i, i + 1)).await;
+                }
+            }
+            co.yield_((n - 1, n - 2)).await;
+            for (i, j) in emk_neg_even(n - 1, k) {
+                co.yield_((i, j)).await;
+            }
+        } else {
+            co.yield_((n - 1, n - 2)).await;
         }
     })
 }
@@ -101,25 +237,26 @@ pub fn emk_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 ///
 /// The function `emk_neg` returns a generator that yields all combinations by homogeneous
 /// revolving-door. The combinations are represented as tuples of two usize values.
-fn emk_neg(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
+fn emk_neg_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if n <= k || k == 0 {
-            return;
-        }
-        if k == 1 {
-            for i in (0..(n - 1)).rev() {
+        if k == 3 {
+            for i in (0..(n - 3)).rev() {
                 co.yield_((i + 1, i)).await;
             }
         } else {
-            for (i, j) in emk_neg(n - 2, k - 2) {
+            for (i, j) in emk_neg_odd(n - 2, k - 2) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((n - 2, k - 2)).await;
-            for (i, j) in emk_gen(n - 2, k - 1) {
+        }
+        co.yield_((n - 2, k - 2)).await;
+        if k >= n - 1 {
+            co.yield_((n - 1, n - 2)).await;
+        } else {
+            for (i, j) in emk_gen_even(n - 2, k - 1) {
                 co.yield_((i, j)).await;
             }
             co.yield_((n - 1, n - 2)).await;
-            for (i, j) in emk_neg(n - 1, k) {
+            for (i, j) in emk_neg_odd(n - 1, k) {
                 co.yield_((i, j)).await;
             }
         }

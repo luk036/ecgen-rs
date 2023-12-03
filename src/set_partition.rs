@@ -56,12 +56,22 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///  
 /// assert_eq!(stirling2nd(5, 3), 25);
 /// ```
+#[inline]
 pub const fn stirling2nd(n: usize, k: usize) -> usize {
     if k >= n || k <= 1 {
         1
-    } else {
-        stirling2nd(n - 1, k - 1) + k * stirling2nd(n - 1, k)
+    } 
+    else {
+        stirling2nd_recur(n, k)
     }
+}
+
+#[inline]
+const fn stirling2nd_recur(n: usize, k: usize) -> usize {
+    let n = n - 1;
+    let a = if k == 2 { 1 } else { stirling2nd_recur(n, k - 1) };
+    let b = if k == n { 1 } else { stirling2nd_recur(n, k) };
+    a + k * b
 }
 
 /// The lists S(n,k,0) and S(n,k,1) satisfy the following properties.
@@ -135,17 +145,14 @@ pub const fn stirling2nd(n: usize, k: usize) -> usize {
 /// ```
 pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
+        if !(k > 1 && k < n) {
+            return;
+        }
         if k % 2 == 0 {
-            if !(k > 0 && k < n) {
-                return;
-            }
             for (i, j) in gen0_even(n, k) {
                 co.yield_((i, j)).await;
             }
         } else {
-            if k >= n {
-                return;
-            }
             for (i, j) in gen0_odd(n, k) {
                 co.yield_((i, j)).await;
             }
@@ -157,27 +164,36 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
-            for (i, j) in gen0_odd(n - 1, k - 1) {
-                co.yield_((i, j)).await;
-            } // S(n-1, k-1, 0).(k-1)
+            if k > 2 {
+                for (i, j) in gen0_odd(n - 1, k - 1) {
+                    co.yield_((i, j)).await;
+                } // S(n-1, k-1, 0).(k-1)
+            }
             co.yield_((n - 1, k - 1)).await;
-            for (i, j) in gen1_even(n - 1, k) {
-                co.yield_((i, j)).await;
-            } // S(n-1, k, 1).(k-1)
-            co.yield_((n, k - 2)).await;
-            for (i, j) in neg1_even(n - 1, k) {
-                co.yield_((i, j)).await;
-            } // S'(n-1, k, 1).(k-2)
-
-            for i in (1..k - 2).step_by(2).rev() {
-                co.yield_((n, i)).await;
+            if k < n - 1 {
                 for (i, j) in gen1_even(n - 1, k) {
                     co.yield_((i, j)).await;
-                } // S(n-1, k, 1).i
-                co.yield_((n, i - 1)).await;
+                } // S(n-1, k, 1).(k-1)
+                co.yield_((n, k - 2)).await;
                 for (i, j) in neg1_even(n - 1, k) {
                     co.yield_((i, j)).await;
-                } // S'(n-1, k, 1).(i-1)
+                } // S'(n-1, k, 1).(k-2)
+                for i in (1..k - 2).step_by(2).rev() {
+                    co.yield_((n, i)).await;
+                    for (i, j) in gen1_even(n - 1, k) {
+                        co.yield_((i, j)).await;
+                    } // S(n-1, k, 1).i
+                    co.yield_((n, i - 1)).await;
+                    for (i, j) in neg1_even(n - 1, k) {
+                        co.yield_((i, j)).await;
+                    } // S'(n-1, k, 1).(i-1)
+                }
+            } else {
+                co.yield_((n, k - 2)).await;
+                for i in (1..k - 2).step_by(2).rev() {
+                    co.yield_((n, i)).await;
+                    co.yield_((n, i - 1)).await;
+                }
             }
         }
     })
@@ -187,28 +203,38 @@ fn gen0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| {
         async move {
-            for i in (1..k - 2).step_by(2) {
+            if k < n - 1 {
+                for i in (1..k - 2).step_by(2) {
+                    for (i, j) in gen1_even(n - 1, k) {
+                        co.yield_((i, j)).await;
+                    } // S(n-1, k, 1).(i-1)
+                    co.yield_((n, i)).await;
+                    for (i, j) in neg1_even(n - 1, k) {
+                        co.yield_((i, j)).await;
+                    } // S'(n-1, k, 1).i
+                    co.yield_((n, i + 1)).await;
+                }
+
                 for (i, j) in gen1_even(n - 1, k) {
                     co.yield_((i, j)).await;
-                } // S(n-1, k, 1).(i-1)
-                co.yield_((n, i)).await;
+                } // S(n-1, k, 1).(k-2)
+                co.yield_((n, k - 1)).await;
                 for (i, j) in neg1_even(n - 1, k) {
                     co.yield_((i, j)).await;
-                } // S'(n-1, k, 1).i
-                co.yield_((n, i + 1)).await;
+                } // S(n-1, k, 1).(k-1)
+            } else {
+                for i in (1..k - 2).step_by(2) {
+                    co.yield_((n, i)).await;
+                    co.yield_((n, i + 1)).await;
+                }
+                co.yield_((n, k - 1)).await;
             }
-
-            for (i, j) in gen1_even(n - 1, k) {
-                co.yield_((i, j)).await;
-            } // S(n-1, k, 1).(k-2)
-            co.yield_((n, k - 1)).await;
-            for (i, j) in neg1_even(n - 1, k) {
-                co.yield_((i, j)).await;
-            } // S(n-1, k, 1).(k-1)
             co.yield_((n - 1, 0)).await;
-            for (i, j) in neg0_odd(n - 1, k - 1) {
-                co.yield_((i, j)).await;
-            } // S(n-1, k-1, 1).(k-1)
+            if k > 3 {
+                for (i, j) in neg0_odd(n - 1, k - 1) {
+                    co.yield_((i, j)).await;
+                } // S(n-1, k-1, 1).(k-1)
+            }
         }
     })
 }
@@ -216,29 +242,35 @@ fn neg0_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,1) even k
 fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if k >= n {
-            return;
-        }
-        for (i, j) in gen1_odd(n - 1, k - 1) {
-            co.yield_((i, j)).await;
+        if k > 3 {
+            for (i, j) in gen1_odd(n - 1, k - 1) {
+                co.yield_((i, j)).await;
+            }
         }
         co.yield_((k, k - 1)).await;
-        for (i, j) in neg1_even(n - 1, k) {
-            co.yield_((i, j)).await;
-        }
-        co.yield_((n, k - 2)).await;
-        for (i, j) in gen1_even(n - 1, k) {
-            co.yield_((i, j)).await;
-        }
-
-        for i in (1..k - 2).step_by(2).rev() {
-            co.yield_((n, i)).await;
+        if k < n - 1 {
             for (i, j) in neg1_even(n - 1, k) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((n, i - 1)).await;
+            co.yield_((n, k - 2)).await;
             for (i, j) in gen1_even(n - 1, k) {
                 co.yield_((i, j)).await;
+            }
+            for i in (1..k - 2).step_by(2).rev() {
+                co.yield_((n, i)).await;
+                for (i, j) in neg1_even(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i - 1)).await;
+                for (i, j) in gen1_even(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+            }
+        } else {
+            co.yield_((n, k - 2)).await;
+            for i in (1..k - 2).step_by(2).rev() {
+                co.yield_((n, i)).await;
+                co.yield_((n, i - 1)).await;
             }
         }
     })
@@ -247,30 +279,36 @@ fn gen1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,1) even k
 fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if k >= n {
-            return;
-        }
-        for i in (1..k - 2).step_by(2) {
+        if k < n - 1 {
+            for i in (1..k - 2).step_by(2) {
+                for (i, j) in neg1_even(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i)).await;
+                for (i, j) in gen1_even(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i + 1)).await;
+            }
             for (i, j) in neg1_even(n - 1, k) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((n, i)).await;
+            co.yield_((n, k - 1)).await;
             for (i, j) in gen1_even(n - 1, k) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((n, i + 1)).await;
-        }
-
-        for (i, j) in neg1_even(n - 1, k) {
-            co.yield_((i, j)).await;
-        }
-        co.yield_((n, k - 1)).await;
-        for (i, j) in gen1_even(n - 1, k) {
-            co.yield_((i, j)).await;
+        } else {
+            for i in (1..k - 2).step_by(2) {
+                co.yield_((n, i)).await;
+                co.yield_((n, i + 1)).await;
+            }
+            co.yield_((n, k - 1)).await;
         }
         co.yield_((k, 0)).await;
-        for (i, j) in neg1_odd(n - 1, k - 1) {
-            co.yield_((i, j)).await;
+        if k > 3 {
+            for (i, j) in neg1_odd(n - 1, k - 1) {
+                co.yield_((i, j)).await;
+            }
         }
     })
 }
@@ -278,25 +316,28 @@ fn neg1_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,0) odd k
 fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if k <= 2 {
-            return;
-        }
         for (i, j) in gen1_even(n - 1, k - 1) {
             co.yield_((i, j)).await;
         }
         co.yield_((k, k - 1)).await;
-        for (i, j) in neg1_odd(n - 1, k) {
-            co.yield_((i, j)).await;
-        }
-
-        for i in (1..k - 1).step_by(2).rev() {
-            co.yield_((n, i)).await;
-            for (i, j) in gen1_odd(n - 1, k) {
-                co.yield_((i, j)).await;
-            }
-            co.yield_((n, i - 1)).await;
+        if k < n - 1 {
             for (i, j) in neg1_odd(n - 1, k) {
                 co.yield_((i, j)).await;
+            }
+            for i in (1..k - 1).step_by(2).rev() {
+                co.yield_((n, i)).await;
+                for (i, j) in gen1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i - 1)).await;
+                for (i, j) in neg1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+            }
+        } else {
+            for i in (1..k - 1).step_by(2).rev() {
+                co.yield_((n, i)).await;
+                co.yield_((n, i - 1)).await;
             }
         }
     })
@@ -305,22 +346,25 @@ fn gen0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,0) odd k
 fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if k <= 2 {
-            return;
-        }
-        for i in (1..k - 1).step_by(2) {
+        if k < n - 1 {
+            for i in (1..k - 1).step_by(2) {
+                for (i, j) in gen1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i)).await;
+                for (i, j) in neg1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i + 1)).await;
+            }
             for (i, j) in gen1_odd(n - 1, k) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((n, i)).await;
-            for (i, j) in neg1_odd(n - 1, k) {
-                co.yield_((i, j)).await;
+        } else {
+            for i in (1..k - 1).step_by(2) {
+                co.yield_((n, i)).await;
+                co.yield_((n, i + 1)).await;
             }
-            co.yield_((n, i + 1)).await;
-        }
-
-        for (i, j) in gen1_odd(n - 1, k) {
-            co.yield_((i, j)).await;
         }
         co.yield_((k, 0)).await;
         for (i, j) in neg1_even(n - 1, k - 1) {
@@ -332,25 +376,28 @@ fn neg0_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S(n,k,1) odd k
 fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 2 && k < n) {
-            return;
-        }
         for (i, j) in gen0_even(n - 1, k - 1) {
             co.yield_((i, j)).await;
         }
         co.yield_((n - 1, k - 1)).await;
-        for (i, j) in gen1_odd(n - 1, k) {
-            co.yield_((i, j)).await;
-        }
-
-        for i in (1..k - 1).step_by(2).rev() {
-            co.yield_((n, i)).await;
-            for (i, j) in neg1_odd(n - 1, k) {
-                co.yield_((i, j)).await;
-            }
-            co.yield_((n, i - 1)).await;
+        if k < n - 1 {
             for (i, j) in gen1_odd(n - 1, k) {
                 co.yield_((i, j)).await;
+            }
+            for i in (1..k - 1).step_by(2).rev() {
+                co.yield_((n, i)).await;
+                for (i, j) in neg1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i - 1)).await;
+                for (i, j) in gen1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+            }
+        } else {
+            for i in (1..k - 1).step_by(2).rev() {
+                co.yield_((n, i)).await;
+                co.yield_((n, i - 1)).await;
             }
         }
     })
@@ -359,22 +406,25 @@ fn gen1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// S'(n,k,1) odd k
 fn neg1_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
-        if !(k > 2 && k < n) {
-            return;
-        }
-        for i in (1..k - 1).step_by(2) {
+        if k < n - 1 {
+            for i in (1..k - 1).step_by(2) {
+                for (i, j) in neg1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i)).await;
+                for (i, j) in gen1_odd(n - 1, k) {
+                    co.yield_((i, j)).await;
+                }
+                co.yield_((n, i + 1)).await;
+            }
             for (i, j) in neg1_odd(n - 1, k) {
                 co.yield_((i, j)).await;
             }
-            co.yield_((n, i)).await;
-            for (i, j) in gen1_odd(n - 1, k) {
-                co.yield_((i, j)).await;
+        } else {
+            for i in (1..k - 1).step_by(2) {
+                co.yield_((n, i)).await;
+                co.yield_((n, i + 1)).await;
             }
-            co.yield_((n, i + 1)).await;
-        }
-
-        for (i, j) in neg1_odd(n - 1, k) {
-            co.yield_((i, j)).await;
         }
         co.yield_((n - 1, 0)).await;
         for (i, j) in neg0_even(n - 1, k - 1) {
@@ -432,7 +482,7 @@ mod tests {
     #[test]
     fn test_set_partition_odd_even() {
         const N: usize = 11;
-        const K: usize = 4;
+        const K: usize = 6;
 
         // 0 0 0 1 2
         let mut b = [0; N + 1];
@@ -453,7 +503,7 @@ mod tests {
     #[test]
     fn test_set_partition_even_even() {
         const N: usize = 10;
-        const K: usize = 4;
+        const K: usize = 6;
 
         // 0 0 0 1 2
         let mut b = [0; N + 1];

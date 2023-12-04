@@ -1,5 +1,6 @@
 use genawaiter::sync::{Gen, GenBoxed};
 
+// /// For future rust version:
 // const fn factorial2<const N: usize>() -> usize {
 //     if N < 2 {
 //         1
@@ -66,7 +67,7 @@ pub const fn factorial(n: usize) -> usize {
 pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
         async move {
-            /* Generate the swaps for the Steinhaus-Johnson-Trotter algorithm.*/
+            /* Generate the swaps for the Steinhaus-Johnson-Trotter algorithm. */
             if n == 2 {
                 co.yield_(0).await;
                 co.yield_(0).await; // tricky part: return to the original list

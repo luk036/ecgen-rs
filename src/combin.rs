@@ -31,6 +31,20 @@ pub const fn comb(n: usize, k: usize) -> usize {
     }
 }
 
+/// The `comb` function calculates the number of combinations of `k` elements from a set of `n`
+/// elements.
+///
+/// Arguments:
+///
+/// * `n`: The parameter `n` represents the total number of items or elements available for selection.
+/// * `k`: The parameter `k` represents the number of elements chosen from a set. It is used to
+/// calculate the number of combinations.
+///
+/// Returns:
+///
+/// The function `comb` returns the number of combinations of `k` elements that can be selected from a
+/// set of `n` elements.
+/// Number of combinations.
 #[inline]
 const fn comb_recur(n: usize, k: usize) -> usize {
     let n = n - 1;

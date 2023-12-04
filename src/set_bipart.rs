@@ -68,6 +68,18 @@ pub fn set_bipart_gen(n: usize) -> GenBoxed<usize> {
 }
 
 /// S(n,k,0) even k
+/// The function `gen0_even` generates a sequence of even numbers starting from `n` and yielding the
+/// previous number, followed by the even numbers from `gen1_even(n-1)` and the negative even numbers
+/// from `neg1_even(n-1)`.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the upper limit for generating even numbers. The function
+/// `gen0_even` generates a sequence of even numbers starting from `n` and going down to 2.
+/// 
+/// Returns:
+/// 
+/// The function `gen0_even` returns a boxed generator (`GenBoxed<usize>`).
 #[inline]
 fn gen0_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
@@ -85,6 +97,17 @@ fn gen0_even(n: usize) -> GenBoxed<usize> {
     })
 }
 
+/// The function `gen1_even` generates a sequence of even numbers from 2 to n, where n is an input
+/// parameter.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the upper limit of the range of numbers to generate.
+/// 
+/// Returns:
+/// 
+/// The function `gen1_even` returns a boxed generator that yields even numbers from 2 to `n`,
+/// inclusive, in a specific pattern.
 /// S(n,k,1) even k
 #[inline]
 fn gen1_even(n: usize) -> GenBoxed<usize> {
@@ -104,6 +127,18 @@ fn gen1_even(n: usize) -> GenBoxed<usize> {
 }
 
 /// S'(n,k,1) even k
+/// The function `neg1_even` generates a sequence of even numbers from 2 to n, where n is an input
+/// parameter.
+/// 
+/// Arguments:
+/// 
+/// * `n`: The parameter `n` represents the upper limit of the range of numbers to generate.
+/// 
+/// Returns:
+/// 
+/// The function `neg1_even` returns a boxed generator that yields even numbers from 2 to `n`,
+/// inclusive, in a specific pattern.
+/// S(n,k,1) even k
 #[inline]
 fn neg1_even(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| async move {
@@ -159,6 +194,8 @@ mod tests {
         assert_eq!(cnt, stirling2nd2(N));
     }
 
+    /// The function `test_set_bipart_special` tests the correctness of the `set_bipart_gen` function by
+    /// comparing its output with the `stirling2nd2` function.
     #[test]
     fn test_set_bipart_special() {
         const N: usize = 2;

@@ -60,8 +60,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 pub const fn stirling2nd(n: usize, k: usize) -> usize {
     if k >= n || k <= 1 {
         1
-    } 
-    else {
+    } else {
         stirling2nd_recur(n, k)
     }
 }
@@ -69,7 +68,11 @@ pub const fn stirling2nd(n: usize, k: usize) -> usize {
 #[inline]
 const fn stirling2nd_recur(n: usize, k: usize) -> usize {
     let n = n - 1;
-    let a = if k == 2 { 1 } else { stirling2nd_recur(n, k - 1) };
+    let a = if k == 2 {
+        1
+    } else {
+        stirling2nd_recur(n, k - 1)
+    };
     let b = if k == n { 1 } else { stirling2nd_recur(n, k) };
     a + k * b
 }

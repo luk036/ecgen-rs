@@ -103,7 +103,6 @@ pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
             for (i, j) in emk_gen_odd(n, k) {
                 co.yield_((i, j)).await;
             }
-
         }
     })
 }
@@ -193,7 +192,6 @@ pub fn emk_gen_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
         }
     })
 }
-
 
 /// Generate all combinations by homogeneous revolving-door
 ///

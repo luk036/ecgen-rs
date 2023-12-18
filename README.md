@@ -3,7 +3,7 @@
 [![Crates.io](https://img.shields.io/crates/v/ecgen-rs.svg)](https://crates.io/crates/ecgen-rs)
 [![Docs.rs](https://docs.rs/ecgen-rs/badge.svg)](https://docs.rs/ecgen-rs)
 [![CI](https://github.com/luk036/ecgen-rs/workflows/CI/badge.svg)](https://github.com/luk036/ecgen-rs/actions)
-[![codecov](https://codecov.io/gh/luk036/ellalgo-rs/branch/master/graph/badge.svg?token=KZnX3rl1gV)](https://codecov.io/gh/luk036/ecgen-rs)
+[![codecov](https://codecov.io/gh/luk036/ecgen-rs/branch/master/graph/badge.svg?token=KZnX3rl1gV)](https://codecov.io/gh/luk036/ecgen-rs)
 
 ## Installation
 

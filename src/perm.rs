@@ -162,3 +162,27 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
         }
     })
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_sjt() {
+        let mut cnt = 0;
+        for _n in sjt_gen(4) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, factorial(4));
+    }
+
+    #[test]
+    fn test_ehr() {
+        let mut cnt = 1;
+        for _n in ehr_gen(4) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, factorial(4));
+    }
+}

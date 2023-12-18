@@ -41,3 +41,17 @@ pub fn brgc_gen(n: usize) -> GenBoxed<usize> {
         }
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_brgc() {
+        let mut cnt = 1;
+        for _n in brgc_gen(3) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, 8);
+    }
+}

@@ -294,4 +294,40 @@ mod tests {
         assert_eq!(comb(3, 3), 1);
         assert_eq!(comb(3, 2), 3);
     }
+
+    #[test]
+    fn test_emk_even_odd() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(16, 5) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(16, 5));
+    }
+
+    #[test]
+    fn test_emk_odd_odd() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(15, 5) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(15, 5));
+    }
+
+    #[test]
+    fn test_emk_even_even() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(16, 6) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(16, 6));
+    }
+
+    #[test]
+    fn test_emk_odd_even() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(15, 6) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(15, 6));
+    }
 }

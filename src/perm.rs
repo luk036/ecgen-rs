@@ -163,7 +163,6 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
     })
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

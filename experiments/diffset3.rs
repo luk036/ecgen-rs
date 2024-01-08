@@ -22,16 +22,16 @@ const MAX_N: usize = 70;
 //-------------------------------------------------------------
 // GLOBAL VARIABLES
 //-------------------------------------------------------------
-static mut N: i32 = 0;
-static mut D: i32 = 0;
-static mut a: [i32; MAX] = [0; MAX];
-static mut b: [i32; MAX] = [0; MAX];
-static mut THRESHOLD: i32 = 0;
-static mut D_MINUS_1: i32 = 0;
-static mut D_TIMES_D_MINUS_1: i32 = 0;
-static mut N_MINUS_D: i32 = 0;
-static mut N1: i32 = 0;
-static mut N2: i32 = 0;
+static mut N: usize = 0;
+static mut D: usize = 0;
+static mut a: [usize; MAX] = [0; MAX];
+static mut b: [usize; MAX] = [0; MAX];
+static mut THRESHOLD: usize = 0;
+static mut D_MINUS_1: usize = 0;
+static mut D_TIMES_D_MINUS_1: usize = 0;
+static mut N_MINUS_D: usize = 0;
+static mut N1: usize = 0;
+static mut N2: usize = 0;
 static mut SIZE_N: usize = 0;
 
 //-------------------------------------------------------------
@@ -41,7 +41,7 @@ static mut SIZE_N: usize = 0;
 fn print_d() {
     // print a
     for i in 1..=unsafe { D } {
-        print!("{} ", unsafe { a[i as usize] });
+        print!("{} ", unsafe { a[i] });
     }
     println!();
     std::process::exit(0);
@@ -59,21 +59,21 @@ fn print_d() {
  * tt - Triangle number of current index t
  * diffset[] - Bit array tracking differences between elements
  */
-fn gen_d(t: i32, p: i32, tt: i32, diffset: &mut [i8; MAX_N]) {
+fn gen_d(t: usize, p: usize, tt: usize, diffset: &mut [i8; MAX_N]) {
     // let mut differences: [i8; MAX_N] = [0; MAX_N];
     // differences.copy_from_slice(&diffset[0..unsafe { SIZE_N }]);
     let mut differences: [i8; MAX_N] = diffset.to_owned();
 
     for i in 0..t {
-        let diff = unsafe { a[t as usize] - a[i as usize] };
+        let diff = unsafe { a[t] - a[i] };
         let n_diff = unsafe { N - diff };
         let min_diff = if diff <= n_diff { diff } else { n_diff };
-        differences[min_diff as usize] = 1;
+        differences[min_diff] = 1;
     }
     if t >= unsafe { THRESHOLD } {
         let mut count = 0;
         for i in 1..=unsafe { N2 } {
-            if differences[i as usize] != 0 {
+            if differences[i] != 0 {
                 count += 1;
             }
         }
@@ -86,26 +86,26 @@ fn gen_d(t: i32, p: i32, tt: i32, diffset: &mut [i8; MAX_N]) {
         print_d();
     } else {
         let mut tail = unsafe { N_MINUS_D + t1 };
-        let max = unsafe { a[t1 as usize - p as usize] + a[p as usize] };
+        let max = unsafe { a[t1 - p] + a[p] };
         let tt1 = t1 * (t1 + 1) / 2;
         if max <= tail {
             unsafe {
-                a[t1 as usize] = max;
-                b[t1 as usize] = b[t1 as usize - p as usize];
+                a[t1] = max;
+                b[t1] = b[t1 - p];
             }
             gen_d(t1, p, tt1, &mut differences);
-            if unsafe { b[t1 as usize] } == 0 {
+            if unsafe { b[t1] } == 0 {
                 unsafe {
-                    b[t1 as usize] = 1;
+                    b[t1] = 1;
                 }
                 gen_d(t1, t1, tt1, &mut differences);
             }
             tail = max - 1;
         }
-        for j in (unsafe { a[t as usize] + 1 }..=tail).rev() {
+        for j in (unsafe { a[t] + 1 }..=tail).rev() {
             unsafe {
-                a[t1 as usize] = j;
-                b[t1 as usize] = 1;
+                a[t1] = j;
+                b[t1] = 1;
             }
             gen_d(t1, t1, tt1, &mut differences);
         }
@@ -124,16 +124,16 @@ fn gen_d(t: i32, p: i32, tt: i32, diffset: &mut [i8; MAX_N]) {
 fn init() {
     unsafe {
         // for j in 0..=D {
-        //     a[j as usize] = 0;
+        //     a[j] = 0;
         // }
-        a[D as usize] = N;
+        a[D] = N;
         a[0] = 0; // for convenience
         D_MINUS_1 = D - 1;
         D_TIMES_D_MINUS_1 = D * (D - 1);
         N_MINUS_D = N - D;
         N2 = N / 2;
         N1 = N2 - D_TIMES_D_MINUS_1 / 2;
-        SIZE_N = N2 as usize + 1;
+        SIZE_N = N2 + 1;
         // let mut differences: Vec<i8> = vec![0; SIZE_N];
         let mut differences: [i8; MAX_N] = [0; MAX_N];
         differences[0] = 1;

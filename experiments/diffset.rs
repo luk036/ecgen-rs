@@ -1,4 +1,4 @@
-use std::mem;
+// use std::mem;
 use std::process::exit;
 
 const MAX: usize = 100;
@@ -10,8 +10,6 @@ struct DiffCover {
     a: [i32; MAX],
     b: [i32; MAX],
     threshold: i32,
-    d_minus_1: i32,
-    d_times_d_minus_1: i32,
     n_minus_d: i32,
     n1: i32,
     n2: i32,
@@ -20,15 +18,16 @@ struct DiffCover {
 
 fn print_d(diff_cover: &DiffCover) {
     for i in 1..=diff_cover.d {
-        print!("{} ", diff_cover.a[i]);
+        print!("{} ", diff_cover.a[i as usize]);
     }
     println!();
     exit(0);
 }
 
 fn gen_d(diff_cover: &mut DiffCover, t: i32, p: i32, tt: i32, diffset: &mut [i8; MAX_N]) {
-    let mut differences = [0; MAX_N];
-    differences.copy_from_slice(&diffset[..diff_cover.size_n]);
+    // let mut differences = [0; MAX_N];
+    // differences.copy_from_slice(&diffset[..diff_cover.size_n]);
+    let mut differences = diffset.to_owned();
     for i in 0..t {
         let diff = diff_cover.a[t as usize] - diff_cover.a[i as usize];
         differences[std::cmp::min(diff, diff_cover.n - diff) as usize] = 1;
@@ -48,7 +47,7 @@ fn gen_d(diff_cover: &mut DiffCover, t: i32, p: i32, tt: i32, diffset: &mut [i8;
     if t1 >= diff_cover.d {
         print_d(diff_cover);
     } else {
-        let tail = diff_cover.n_minus_d + t1;
+        let mut tail = diff_cover.n_minus_d + t1;
         let max = diff_cover.a[t1 as usize - p as usize] + diff_cover.a[p as usize];
         let tt1 = t1 * (t1 + 1) / 2;
         if max <= tail {
@@ -75,15 +74,9 @@ fn init(diff_cover: &mut DiffCover) {
     // }
     diff_cover.a[diff_cover.d as usize] = diff_cover.n;
     diff_cover.a[0] = 0;
-    diff_cover.d_minus_1 = diff_cover.d - 1;
-    diff_cover.d_times_d_minus_1 = diff_cover.d * (diff_cover.d - 1);
-    diff_cover.n_minus_d = diff_cover.n - diff_cover.d;
-    diff_cover.n2 = diff_cover.n / 2;
-    diff_cover.n1 = diff_cover.n2 - diff_cover.d_times_d_minus_1 / 2;
-    diff_cover.size_n = (diff_cover.n2 + 1) * mem::size_of::<i8>();
     let mut differences = [0; MAX_N];
     differences[0] = 1;
-    for j in (diff_cover.n_minus_d + 1)..=((diff_cover.n - 1) / diff_cover.d + 1) {
+    for j in (((diff_cover.n - 1) / diff_cover.d + 1)..=(diff_cover.n_minus_d + 1)).rev() {
         diff_cover.a[1] = j;
         diff_cover.b[1] = 1;
         gen_d(diff_cover, 1, 1, 1, &mut differences);
@@ -114,12 +107,12 @@ fn main() {
         a: [0; MAX],
         b: [0; MAX],
         threshold,
-        d_minus_1: 0,
-        d_times_d_minus_1: 0,
-        n_minus_d: 0,
-        n1: 0,
-        n2: 0,
-        size_n: 0,
+        n_minus_d: n - d,
+        n1: n / 2 - d * (d - 1) / 2,
+        n2: n / 2,
+        size_n: (n / 2 + 1) as usize,
     };
+    diff_cover.a[d as usize] = n;
+    diff_cover.a[0] = 0;
     init(&mut diff_cover);
 }

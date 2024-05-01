@@ -16,7 +16,3 @@ genawaiter = { version = "0.99.1", features = ["futures03"] }
 
 [dev-dependencies]
 criterion = "0.5"
-
-[[bench]]
-name = "my_benchmark"
-harness = false

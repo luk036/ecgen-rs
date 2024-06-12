@@ -34,7 +34,7 @@ mod tests {
 
     #[test]
     fn test_ehr() {
-        let mut cnt = 0;
+        let mut cnt = 1;
         for _n in ehr_gen(4) {
             cnt += 1;
         }

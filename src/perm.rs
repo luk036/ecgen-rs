@@ -117,7 +117,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 /// use ecgen::ehr_gen;
 ///  
 /// let mut perm = ["🍉", "🍌", "🍇", "🍏"];
-/// let mut cnt = 0;
+/// let mut cnt = 1;
 /// println!("{}", perm.concat());
 /// for n in ehr_gen(perm.len()) {
 ///     perm.swap(0, n);
@@ -126,7 +126,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 /// }
 ///
 /// assert_eq!(cnt, 24);
-/// assert_eq!(perm, ["🍉", "🍌", "🍇", "🍏"]); // Hamilton cycle
+/// assert_eq!(perm, ["🍏", "🍌", "🍇", "🍉"]);
 /// ```
 pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
     Gen::new_boxed(|co| {
@@ -145,15 +145,10 @@ pub fn ehr_gen(n: usize) -> GenBoxed<usize> {
                     }
                 }
                 if k == n {
-                    co.yield_(b[n - 1]).await;
                     break;
                 }
                 c[k] += 1;
                 co.yield_(b[k]).await;
-
-                // for (auto i = 1, j = k - 1; i < j; ++i, --j) {
-                //    std::swap(b[i], b[j]);
-                // }
                 b[1..k].reverse();
             }
         }
@@ -175,7 +170,7 @@ mod tests {
 
     #[test]
     fn test_ehr() {
-        let mut cnt = 0;
+        let mut cnt = 1;
         for _n in ehr_gen(4) {
             cnt += 1;
         }

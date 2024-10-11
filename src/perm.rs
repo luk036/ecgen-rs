@@ -104,7 +104,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the number of elements in the permutation. In the given example,
-/// `n` is set to 4, so it generates permutations of 4 elements.
+///        `n` is set to 4, so it generates permutations of 4 elements.
 ///
 /// Returns:
 ///

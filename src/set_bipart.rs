@@ -6,8 +6,8 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the number of elements in a set. The `stirling2nd2` function
-/// calculates the Stirling number of the second kind specifically for `k = 2`, which represents the
-/// number of non-empty subsets that can be formed from a set of `n` elements
+///        calculates the Stirling number of the second kind specifically for `k = 2`, which represents the
+///        number of non-empty subsets that can be formed from a set of `n` elements
 ///
 /// Returns:
 ///
@@ -75,7 +75,7 @@ pub fn set_bipart_gen(n: usize) -> GenBoxed<usize> {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the upper limit for generating even numbers. The function
-/// `gen0_even` generates a sequence of even numbers starting from `n` and going down to 2.
+///        `gen0_even` generates a sequence of even numbers starting from `n` and going down to 2.
 ///
 /// Returns:
 ///

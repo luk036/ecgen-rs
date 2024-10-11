@@ -7,7 +7,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///
 /// * `n`: The parameter `n` represents the total number of items or elements available for selection.
 /// * `k`: The parameter `k` represents the number of elements chosen from a set. It is used to
-/// calculate the number of combinations.
+///        calculate the number of combinations.
 ///
 /// Returns:
 ///
@@ -38,7 +38,7 @@ pub const fn comb(n: usize, k: usize) -> usize {
 ///
 /// * `n`: The parameter `n` represents the total number of items or elements available for selection.
 /// * `k`: The parameter `k` represents the number of elements chosen from a set. It is used to
-/// calculate the number of combinations.
+///        calculate the number of combinations.
 ///
 /// Returns:
 ///
@@ -60,7 +60,7 @@ const fn comb_recur(n: usize, k: usize) -> usize {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in the combination set. It
-/// determines the range of indices that can be used in the combinations.
+///        determines the range of indices that can be used in the combinations.
 /// * `k`: The parameter `k` represents the number of elements that will be swapped in each combination.
 ///
 /// Returns:
@@ -114,7 +114,7 @@ pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in the combination set. It
-/// determines the range of indices that can be used in the combinations.
+///        determines the range of indices that can be used in the combinations.
 /// * `k`: The parameter `k` represents the number of elements that will be swapped in each combination.
 ///
 /// Returns:
@@ -158,7 +158,7 @@ pub fn emk_gen_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in the combination set. It
-/// determines the range of indices that can be used in the combinations.
+///        determines the range of indices that can be used in the combinations.
 /// * `k`: The parameter `k` represents the number of elements that will be swapped in each combination.
 ///
 /// Returns:
@@ -200,7 +200,7 @@ pub fn emk_gen_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in the set from which combinations
-/// are generated.
+///        are generated.
 /// * `k`: The parameter `k` represents the number of elements in each combination.
 ///
 /// Returns:
@@ -242,7 +242,7 @@ fn emk_neg_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in the set from which combinations
-/// are generated.
+///        are generated.
 /// * `k`: The parameter `k` represents the number of elements in each combination.
 ///
 /// Returns:

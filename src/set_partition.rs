@@ -98,7 +98,7 @@ const fn stirling2nd_recur(n: usize, k: usize) -> usize {
 /// 2. first(S(n,k,0)) = first(S(n,k,1)) = 0^{n-k}0123...(k-1)
 /// 3. last(S(n,k,0)) = 0^{n-k}12...(k-1)0
 /// 4. last(S(n,k,1)) = 012...(k-1)0^{n-k}
-/// 
+///
 /// Note that first(S'(n,k,p)) = last(S(n,k,p))
 
 /// # Set partition

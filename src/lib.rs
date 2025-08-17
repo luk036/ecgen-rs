@@ -116,4 +116,60 @@ mod tests {
         }
         assert_eq!(cnt, stirling2nd2(N));
     }
+
+    #[test]
+    fn test_emk_k_is_1() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(5, 1) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(5, 1));
+    }
+
+    #[test]
+    fn test_emk_k_is_n_minus_1() {
+        let mut cnt = 1;
+        for (_x, _y) in emk_comb_gen(5, 4) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, comb(5, 4));
+    }
+
+    #[test]
+    fn test_sjt_cycle() {
+        let mut p = [0, 1, 2];
+        for i in sjt_gen(3) {
+            p.swap(i, i + 1);
+        }
+        assert_eq!(p, [0, 1, 2]);
+    }
+
+    #[test]
+    fn test_ehr_cycle() {
+        let mut p = [0, 1, 2];
+        for i in ehr_gen(3) {
+            p.swap(0, i);
+        }
+        assert_ne!(p, [0, 1, 2]);
+    }
+
+    #[test]
+    fn test_set_partition_gen_n4_k3() {
+        let mut p = [0, 0, 1, 2];
+        let mut cnt = 1;
+        for (i, j) in set_partition_gen(4, 3) {
+            p[i - 1] = j;
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd(4, 3));
+    }
+
+    #[test]
+    fn test_set_bipart_gen_n3() {
+        let mut cnt = 1;
+        for _x in set_bipart_gen(3) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, stirling2nd2(3));
+    }
 }

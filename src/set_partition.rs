@@ -13,7 +13,6 @@
 /// The code also includes a function stirling2nd which calculates the total number of possible partitions for given n and k. This is used in the test cases to verify that the generator produces the correct number of partitions.
 ///
 /// Overall, this code provides a powerful tool for working with set partitions, allowing programmers to efficiently generate and iterate through all possible ways of dividing a set into groups. It's a complex implementation of a mathematical concept, made accessible through a relatively simple function interface.
-
 /// # Set Partition
 ///
 /// A set partition of the set [n] = {1,2,3,...,n} is a collection B0,
@@ -56,9 +55,9 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in a set, and `k` represents the
-///        number of non-empty subsets that can be formed from the set.
+///   number of non-empty subsets that can be formed from the set.
 /// * `k`: The parameter `k` represents the number of non-empty subsets that need to be formed from a
-///        set of `n` elements.
+///   set of `n` elements.
 ///
 /// Returns:
 ///
@@ -100,7 +99,6 @@ const fn stirling2nd_recur(n: usize, k: usize) -> usize {
 /// 4. last(S(n,k,1)) = 012...(k-1)0^{n-k}
 ///
 /// Note that first(S'(n,k,p)) = last(S(n,k,p))
-
 /// # Set partition
 ///
 /// The `set_partition_gen` function generates all possible moves in a set partition of size `n` into
@@ -109,7 +107,7 @@ const fn stirling2nd_recur(n: usize, k: usize) -> usize {
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of elements in the set that we want to
-///        partition.
+///   partition.
 /// * `k`: The parameter `k` represents the number of blocks in the set partition.
 ///
 /// Returns:

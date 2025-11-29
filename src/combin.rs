@@ -122,6 +122,20 @@ pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// The function `emk_gen` returns a `GenBoxed<(usize, usize)>`, which is a boxed generator that yields
 /// tuples of two `usize` values.
 ///
+/// # Examples
+///
+/// ```
+/// use ecgen::combin::emk_gen_even;
+///  
+/// let mut cnt = 1;
+/// for (i, j) in emk_gen_even(4, 2) {
+///     println!("({}, {})", i, j);
+///     cnt += 1;
+/// }
+///
+/// // The count should match expected number of swaps
+/// assert!(cnt > 0);
+/// ```
 pub fn emk_gen_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if k >= n - 1 {
@@ -166,6 +180,20 @@ pub fn emk_gen_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 /// The function `emk_gen` returns a `GenBoxed<(usize, usize)>`, which is a boxed generator that yields
 /// tuples of two `usize` values.
 ///
+/// # Examples
+///
+/// ```
+/// use ecgen::combin::emk_gen_odd;
+///  
+/// let mut cnt = 1;
+/// for (i, j) in emk_gen_odd(5, 3) {
+///     println!("({}, {})", i, j);
+///     cnt += 1;
+/// }
+///
+/// // The count should match expected number of swaps
+/// assert!(cnt > 0);
+/// ```
 pub fn emk_gen_odd(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
     Gen::new_boxed(|co| async move {
         if k < n - 1 {

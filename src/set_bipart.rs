@@ -17,7 +17,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///
 /// ```
 /// use ecgen::stirling2nd2;
-///  
+///
 /// assert_eq!(stirling2nd2(5), 15);
 /// ```
 #[inline]
@@ -43,7 +43,7 @@ pub const fn stirling2nd2(n: usize) -> usize {
 ///
 /// ```
 /// use ecgen::set_bipart_gen;
-///  
+///
 /// const N: usize = 5;
 ///
 /// // 0 0 0 0 0 1

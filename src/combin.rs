@@ -19,7 +19,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///
 /// ```
 /// use ecgen::comb;
-///  
+///
 /// assert_eq!(comb(3, 2), 3);
 /// assert_eq!(comb(6, 4), comb(6, 2));
 /// ```
@@ -72,7 +72,7 @@ const fn comb_recur(n: usize, k: usize) -> usize {
 ///
 /// ```
 /// use ecgen::emk_comb_gen;
-///  
+///
 /// let mut combin = [1, 1, 0];
 /// println!("{:?}", combin);
 /// let mut cnt = 1;
@@ -126,7 +126,7 @@ pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 ///
 /// ```
 /// use ecgen::combin::emk_gen_even;
-///  
+///
 /// let mut cnt = 1;
 /// for (i, j) in emk_gen_even(4, 2) {
 ///     println!("({}, {})", i, j);
@@ -184,7 +184,7 @@ pub fn emk_gen_even(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
 ///
 /// ```
 /// use ecgen::combin::emk_gen_odd;
-///  
+///
 /// let mut cnt = 1;
 /// for (i, j) in emk_gen_odd(5, 3) {
 ///     println!("({}, {})", i, j);

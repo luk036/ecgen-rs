@@ -68,7 +68,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///
 /// ```
 /// use ecgen::stirling2nd;
-///  
+///
 /// assert_eq!(stirling2nd(5, 3), 25);
 /// ```
 #[inline]
@@ -118,7 +118,7 @@ const fn stirling2nd_recur(n: usize, k: usize) -> usize {
 ///
 /// ```
 /// use ecgen::set_partition_gen;
-///  
+///
 /// const N: usize = 5;
 /// const K: usize = 3;
 ///
@@ -141,7 +141,7 @@ const fn stirling2nd_recur(n: usize, k: usize) -> usize {
 ///
 /// ```
 /// use ecgen::set_partition_gen;
-///  
+///
 /// const N: usize = 6;
 /// const K: usize = 3;
 ///

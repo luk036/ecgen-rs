@@ -10,12 +10,12 @@
      dP        Y8b.       Uptime      -  2h 21m
     d8:       ::88b.      CPU         -  Intel® Celeron® N4000 CPU @ 1.10GHz (2)
 
-d8" 'Y88b Resolution - 1366x768  
- :8P :888 Brightness - 54%  
- 8a. _a88P CPU Load - 44%  
- ._/"Yaa .| 88P| Memory - 2.7 GB/5.9 GB  
- \ YP" `|     `.  
- / \.**\_.d| .'  
+d8" 'Y88b Resolution - 1366x768
+ :8P :888 Brightness - 54%
+ 8a. _a88P CPU Load - 44%
+ ._/"Yaa .| 88P| Memory - 2.7 GB/5.9 GB
+ \ YP" `|     `.
+ / \.**\_.d| .'
  `--..**) `.\_.'
 
 ecgen-cpp/experiments on  master [!?]

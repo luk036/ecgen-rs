@@ -24,7 +24,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///
 /// ```
 /// use ecgen::factorial;
-///  
+///
 /// assert_eq!(factorial(5), 120);
 /// assert_eq!(factorial(1), 1);
 /// ```
@@ -53,7 +53,7 @@ pub const fn factorial(n: usize) -> usize {
 ///
 /// ```
 /// use ecgen::sjt_gen;
-///  
+///
 /// let mut perm = ["🍉", "🍌", "🍇", "🍏"];
 /// let mut cnt = 0;
 /// for n in sjt_gen(perm.len()) {
@@ -115,7 +115,7 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 ///
 /// ```
 /// use ecgen::ehr_gen;
-///  
+///
 /// let mut perm = ["🍉", "🍌", "🍇", "🍏"];
 /// let mut cnt = 1;
 /// println!("{}", perm.concat());

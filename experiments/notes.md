@@ -10,12 +10,12 @@
      dP        Y8b.       Uptime      -  2d 1h 21m
     d8:       ::88b.      CPU         -  Intel® Core™ i5-3427U CPU @ 1.80GHz (4)
 
-d8" 'Y88b Resolution - 1920x1200, 1366x768  
- :8P :888 Brightness - 62%  
- 8a. _a88P CPU Load - 6%  
- ._/"Yaa .| 88P| Memory - 1.2 GB/3.9 GB  
- \ YP" `|     `.  
- / \.**\_.d| .'  
+d8" 'Y88b Resolution - 1920x1200, 1366x768
+ :8P :888 Brightness - 62%
+ 8a. _a88P CPU Load - 6%
+ ._/"Yaa .| 88P| Memory - 1.2 GB/3.9 GB
+ \ YP" `|     `.
+ / \.**\_.d| .'
  `--..**) `.\_.'
 
 ecgen-rs/experiments on  master [!?] via 🦀 v1.74.0

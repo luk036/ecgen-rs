@@ -15,7 +15,7 @@ use genawaiter::sync::{Gen, GenBoxed};
 ///
 /// ```
 /// use ecgen::brgc_gen;
-///  
+///
 /// let mut lst = ["⬜"; 3];
 /// println!("{}", lst.concat());
 /// let mut cnt = 1;

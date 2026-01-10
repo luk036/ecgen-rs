@@ -95,7 +95,7 @@ pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
             }
             return;
         }
-        if k % 2 == 0 {
+        if k.is_multiple_of(2) {
             for (i, j) in emk_gen_even(n, k) {
                 co.yield_((i, j)).await;
             }

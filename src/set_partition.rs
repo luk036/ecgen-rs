@@ -166,7 +166,7 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
         if !(k > 1 && k < n) {
             return;
         }
-        if k % 2 == 0 {
+        if k.is_multiple_of(2) {
             for (i, j) in gen0_even(n, k) {
                 co.yield_((i, j)).await;
             }

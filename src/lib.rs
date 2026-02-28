@@ -1,3 +1,28 @@
+//! ecgen-rs: Enumerative Combinatorics Generation
+//!
+//! A library for generating combinatorial structures like permutations,
+//! combinations, set partitions, and binary Gray codes.
+//!
+//! ## Features
+//!
+//! - `std` (default): Enables standard library support and logging
+//!
+//! ## Logging
+//!
+//! When the `std` feature is enabled, you can use the logging module:
+//!
+//! ```rust,ignore
+//! use ecgen::logging::init_logger;
+//!
+//! init_logger();
+//! log::info!("Application started");
+//! ```
+//!
+//! Set the RUST_LOG environment variable to control log level:
+//! ```bash
+//! RUST_LOG=debug cargo run --features std
+//! ```
+
 pub mod combin;
 pub mod gray_code;
 pub mod perm;
@@ -173,3 +198,6 @@ mod tests {
         assert_eq!(cnt, stirling2nd2(3));
     }
 }
+
+#[cfg(feature = "std")]
+pub mod logging;

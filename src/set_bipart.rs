@@ -1,3 +1,23 @@
+//! Set bipartition generation
+//!
+//! This module provides specialized functionality for generating set partitions
+//! into exactly 2 blocks (bipartitions). This is a specialized case of the
+//! general set partition problem.
+//!
+//! ## Key Functions
+//!
+//! - [`stirling2nd2`] - Calculate Stirling numbers of the second kind for k=2
+//! - [`set_bipart_gen`] - Generate all bipartitions of an n-element set
+//!
+//! ## Algorithm
+//!
+//! The bipartition generator produces all ways to split a set of n elements
+//! into two non-empty blocks. The generator yields element indices that should
+//! be moved from one block to the other, following a Gray code ordering where
+//! successive partitions differ by moving only one element.
+//!
+//! The total number of bipartitions of an n-element set is S(n,2) = 2^(n-1) - 1.
+
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `stirling2nd2` function calculates the Stirling number of the second kind specifically for k =

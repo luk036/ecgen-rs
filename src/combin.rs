@@ -1,3 +1,27 @@
+//! Combination generation
+//!
+//! This module provides functionality for generating combinations using the
+//! homogeneous revolving-door algorithm (also known as the " revolving-door"
+//! or " revolving door" algorithm).
+//!
+//! ## Key Functions
+//!
+//! - [`comb`] - Calculate binomial coefficients
+//! - [`emk_comb_gen`] - Generate all k-combinations of an n-element set
+//! - [`emk_gen_even`] - Generate combinations with even k
+//! - [`emk_gen_odd`] - Generate combinations with odd k
+//!
+//! ## Algorithm
+//!
+//! The homogeneous revolving-door algorithm generates all combinations in
+//! such a way that each successive combination differs from the previous one
+//! by exactly one element swap (the "revolving door" property).
+//!
+//! ## Reference
+//!
+//! This implementation is based on the work of Ehrlich (1973) on the
+//! revolving-door algorithm for generating combinations.
+
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `comb` function calculates the number of combinations of `k` elements from a set of `n`

@@ -20,6 +20,10 @@
 //! ## Reference
 //!
 //! Gray codes were originally designed by Frank Gray (1953) for pulse code modulation.
+//!
+//! ## Complexity
+//!
+//! - `brgc_gen(n)`: O(2^n) output size, O(n) stack space
 
 use genawaiter::sync::{Gen, GenBoxed};
 

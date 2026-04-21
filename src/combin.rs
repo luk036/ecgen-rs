@@ -21,6 +21,11 @@
 //!
 //! This implementation is based on the work of Ehrlich (1973) on the
 //! revolving-door algorithm for generating combinations.
+//!
+//! ## Complexity
+//!
+//! - `comb(n, k)`: O(min(k, n-k)) time, O(min(k, n-k)) stack space
+//! - `emk_comb_gen(n, k)`: O(C(n,k)) output size, O(k) auxiliary space
 
 use genawaiter::sync::{Gen, GenBoxed};
 
@@ -119,7 +124,7 @@ pub fn emk_comb_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
             }
             return;
         }
-        if k.is_multiple_of(2) {
+        if k % 2 == 0 {
             for (i, j) in emk_gen_even(n, k) {
                 co.yield_((i, j)).await;
             }

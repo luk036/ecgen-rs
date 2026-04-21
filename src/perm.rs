@@ -1,3 +1,14 @@
+//! Permutation generation
+//!
+//! This module provides functionality for generating permutations using the
+//! Steinhaus-Johnson-Trotter (SJT) algorithm and Ehrlich algorithm.
+//!
+//! ## Complexity
+//!
+//! - `factorial(n)`: O(n) time, O(n) stack space
+//! - `sjt_gen(n)`: O(n!) output size, O(n) auxiliary space
+//! - `ehr_gen(n)`: O(n!) output size, O(n) auxiliary space
+
 use genawaiter::sync::{Gen, GenBoxed};
 
 // /// For future rust version:

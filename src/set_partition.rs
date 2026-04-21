@@ -45,6 +45,11 @@
 /// reversing sublists. Lecture Notes in Computer Science, #762,
 /// 201-208. Also downloadable from
 /// <http://webhome.cs.uvic.ca/~ruskey/Publications/SimpleGray/SimpleGray.html>
+///
+/// ## Complexity
+///
+/// - `stirling2nd(n, k)`: O(k) time, O(k) stack space
+/// - `set_partition_gen(n, k)`: O(S(n,k)) output size, O(k) auxiliary space
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// Stirling number of second kind.
@@ -166,7 +171,7 @@ pub fn set_partition_gen(n: usize, k: usize) -> GenBoxed<(usize, usize)> {
         if !(k > 1 && k < n) {
             return;
         }
-        if k.is_multiple_of(2) {
+        if k % 2 == 0 {
             for (i, j) in gen0_even(n, k) {
                 co.yield_((i, j)).await;
             }

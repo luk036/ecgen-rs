@@ -13,8 +13,8 @@ path = "src/lib.rs"
 
 [dependencies]
 genawaiter = { version = "0.99.1", features = ["futures03"] }
-log = { version = "0.4", optional = true }
-env_logger = { version = "0.11", optional = true }
+log = { version = "0.4.32", optional = true }
+env_logger = { version = "0.11.10", optional = true }
 
 [features]
 default = ["std"]
@@ -22,7 +22,7 @@ std = ["dep:log", "dep:env_logger"]
 diffset = []
 
 [dev-dependencies]
-criterion = "0.7"
+criterion = "0.8.2"
 quickcheck = "1.0"
 
 [profile.release]

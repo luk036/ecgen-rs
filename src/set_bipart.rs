@@ -23,6 +23,8 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// The `stirling2nd2` function calculates the Stirling number of the second kind specifically for k =
 /// 2.
 ///
+/// $$ S(n, 2) = 2^{n-1} - 1 $$
+///
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the number of elements in a set. The `stirling2nd2` function

@@ -161,6 +161,13 @@ fn diffset_recursive_impl(
 
 /// Check if a set is a valid difference set
 ///
+/// A subset $D \subset \mathbb{Z}_n$ of size $k$ is a difference set if every
+/// non-zero element of $\mathbb{Z}_n$ appears exactly $\lambda$ times as a difference:
+///
+/// $$ |\{ (d_i, d_j) \in D \times D : d_i - d_j \equiv \delta \pmod{n} \}| = \lambda $$
+///
+/// for all $\delta \in \mathbb{Z}_n \setminus \{0\}$, where $\lambda = \frac{k(k-1)}{n-1}$.
+///
 /// This function verifies whether a given set is a difference set modulo n,
 /// meaning that all non-zero differences appear exactly once.
 ///

@@ -54,6 +54,8 @@ use genawaiter::sync::{Gen, GenBoxed};
 
 /// Stirling number of second kind.
 ///
+/// $$ S(n, k) = k \cdot S(n-1, k) + S(n-1, k-1), \quad S(n, 1) = S(n, n) = 1 $$
+///
 /// The `stirling2nd` function calculates the Stirling number of the second kind for given values of `n`
 /// and `k`.
 ///

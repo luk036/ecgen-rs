@@ -32,6 +32,8 @@ use genawaiter::sync::{Gen, GenBoxed};
 /// The `comb` function calculates the number of combinations of `k` elements from a set of `n`
 /// elements.
 ///
+/// $$ C(n, k) = \binom{n}{k} = \frac{n!}{k!\,(n-k)!} $$
+///
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the total number of items or elements available for selection.
@@ -83,6 +85,11 @@ const fn comb_recur(n: usize, k: usize) -> usize {
 }
 
 /// Generate all combinations by homogeneous revolving-door
+///
+/// Ehrlich's revolving-door algorithm generates all $\binom{n}{k}$ combinations
+/// such that successive combinations differ by exactly one element swap.
+///
+/// $$ C_i \oplus C_{i+1} = \{a, b\},\quad |C_i \setminus C_{i+1}| = |C_{i+1} \setminus C_i| = 1 $$
 ///
 /// The `emk_comb_gen` function generates all combinations by using a homogeneous revolving-door algorithm.
 ///

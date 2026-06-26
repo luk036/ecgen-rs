@@ -29,6 +29,12 @@ use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `brgc_gen` function generates a binary reflexed gray code sequence of length `n`.
 ///
+/// Binary reflected Gray code (BRGC) for $n$ bits:
+///
+/// $$ G(n) = 0 \cdot G(n-1) \oplus 1 \cdot G(n-1)^R $$
+///
+/// where $G(n-1)^R$ is the reverse of the $(n-1)$-bit sequence.
+///
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the number of bits in the binary reflexed gray code sequence.

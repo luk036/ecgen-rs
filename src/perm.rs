@@ -23,6 +23,8 @@ use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `factorial` function calculates the factorial of a given number.
 ///
+/// $$ n! = \prod_{i=1}^{n} i = n \times (n-1) \times \cdots \times 1 $$
+///
 /// Arguments:
 ///
 /// * `n`: The parameter `n` represents the number for which we want to calculate the factorial.
@@ -48,6 +50,11 @@ pub const fn factorial(n: usize) -> usize {
 }
 
 /// Generate all permutations by adjacent transposition
+///
+/// The Steinhaus-Johnson-Trotter algorithm generates all $n!$ permutations by adjacent transpositions,
+/// producing a Hamilton cycle on the permutohedron.
+///
+/// $$ P_n = \{ \pi_1, \pi_2, \ldots, \pi_{n!} \}, \quad \pi_{i+1} = \pi_i \circ (k, k+1) $$
 ///
 /// The `sjt_gen` function in Rust generates all permutations of a given length using the
 /// Steinhaus-Johnson-Trotter algorithm.
@@ -108,6 +115,11 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
 }
 
 /// Generate all permutations by star transposition
+///
+/// Ehrlich's algorithm generates all $n!$ permutations by swapping the first element
+/// with another, producing a Hamilton cycle on the star graph.
+///
+/// $$ \pi_{i+1} = (0, k) \circ \pi_i $$
 ///
 /// The `ehr_gen` function generates all permutations of a given length using the star transposition
 /// algorithm.

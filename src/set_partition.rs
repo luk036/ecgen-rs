@@ -15,9 +15,9 @@
 //! Overall, this code provides a powerful tool for working with set partitions, allowing programmers to efficiently generate and iterate through all possible ways of dividing a set into groups. It's a complex implementation of a mathematical concept, made accessible through a relatively simple function interface.
 //! # Set Partition
 //!
-//! A set partition of the set [n] = {1,2,3,...,n} is a collection B0,
-//! B1, ... Bj of disjoint subsets of [n] whose union is [n]. Each Bj
-//! is called a block. Below we show the partitions of [4]. The periods
+//! A set partition of the set \[n\] = {1,2,3,...,n} is a collection B0,
+//! B1, ... Bj of disjoint subsets of \[n\] whose union is \[n\]. Each Bj
+//! is called a block. Below we show the partitions of \[4\]. The periods
 //! separtate the individual sets so that, for example, 1.23.4 is the
 //! partition {{1},{2,3},{4}}.
 //!   1. block:  1234
@@ -28,7 +28,7 @@
 //! Each partition above has its blocks listed in increasing order of
 //! smallest element; thus block 0 contains element 1, block1 contains
 //! the smallest element not in block 0, and so on. A Restricted Growth
-//! string (or RG string) is a sring a[1..n] where a[i] is the block in
+//! string (or RG string) is a sring a\[1..n\] where a\[i\] is the block in
 //! whcih element i occurs. Restricted Growth strings are often called
 //! restricted growth functions. Here are the RG strings corresponding
 //! to the partitions shown above.

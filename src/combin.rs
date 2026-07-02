@@ -26,6 +26,21 @@
 //!
 //! - `comb(n, k)`: O(min(k, n-k)) time, O(min(k, n-k)) stack space
 //! - `emk_comb_gen(n, k)`: O(C(n,k)) output size, O(k) auxiliary space
+//!
+#![cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///  .───────────────.
+///  │ Choose k of n │
+///  │ from n items  │
+///  '───────┬───────'
+///          │
+///          ▼
+///  .───────────────.
+///  │ C(n,k) = n! / │
+///  │ (k!(n-k)!)    │
+///  '───────────────'
+/// ```
+))]
 
 use genawaiter::sync::{Gen, GenBoxed};
 

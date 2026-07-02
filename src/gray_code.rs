@@ -24,7 +24,19 @@
 //! ## Complexity
 //!
 //! - `brgc_gen(n)`: O(2^n) output size, O(n) stack space
-
+//!
+#![cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///   .───.    .───.    .───.    .───.
+///   │000│────│001│────│011│────│010│
+///   '───'    '───'    '───'    '───'
+///     │                  │
+///   .───.    .───.    .───.    .───.
+///   │100│────│101│    │111│────│110│
+///   '───'    '───'    '───'    '───'
+/// ```
+))]
+//!
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `brgc_gen` function generates a binary reflexed gray code sequence of length `n`.

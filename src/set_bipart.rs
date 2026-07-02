@@ -17,7 +17,22 @@
 //! successive partitions differ by moving only one element.
 //!
 //! The total number of bipartitions of an n-element set is S(n,2) = 2^(n-1) - 1.
-
+//!
+#![cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///  .───────────────.
+///  │ Set of n      │
+///  │ elements      │
+///  '───────┬───────'
+///          │
+///          ▼
+///  .───────────────.
+///  │ S(n,2) = 2^n-1│
+///  │      - 1      │
+///  '───────────────'
+/// ```
+))]
+//!
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// The `stirling2nd2` function calculates the Stirling number of the second kind specifically for k =
@@ -52,6 +67,10 @@ pub const fn stirling2nd2(n: usize) -> usize {
 }
 
 /// The `set_bipart_gen` function generates a sequence of numbers representing moves between two blocks.
+///
+/// The total number of bipartitions of $n$ elements is:
+///
+/// $$ S(n, 2) = 2^{n-1} - 1 $$
 ///
 /// Arguments:
 ///

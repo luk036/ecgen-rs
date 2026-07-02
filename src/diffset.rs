@@ -17,10 +17,24 @@
 //!
 //! This module provides functionality for generating difference sets,
 //! which are combinatorial structures with specific properties.
+//!
+#![cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///  .───────────────.
+///  │ Parameters:   │
+///  │ (v, k, λ)     │
+///  │ k(k-1)=λ(v-1) │
+///  '───────────────'
+/// ```
+))]
 
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// Generate difference sets
+///
+/// A $(v, k, \lambda)$-difference set satisfies:
+///
+/// $$ k(k-1) = \lambda (v-1) $$
 ///
 /// This generator produces all possible difference sets of size `d` for a set of size `n`,
 /// using a threshold for pruning the search space.

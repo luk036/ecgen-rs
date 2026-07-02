@@ -8,6 +8,16 @@
 //! - `factorial(n)`: O(n) time, O(n) stack space
 //! - `sjt_gen(n)`: O(n!) output size, O(n) auxiliary space
 //! - `ehr_gen(n)`: O(n!) output size, O(n) auxiliary space
+//!
+#![cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///  .───────────.    .───────────.    .───────────.
+///  │ n items   │───►│ Factorial │───►│ All n!   │
+///  │           │    │ Number    │    │ perms    │
+///  '───────────'    │ System    │    '───────────'
+///                    '───────────'
+/// ```
+))]
 
 use genawaiter::sync::{Gen, GenBoxed};
 

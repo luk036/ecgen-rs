@@ -50,6 +50,19 @@
 ///
 /// - `stirling2nd(n, k)`: O(k) time, O(k) stack space
 /// - `set_partition_gen(n, k)`: O(S(n,k)) output size, O(k) auxiliary space
+//!
+#![cfg_attr(feature = "doc-images", doc = svgbobdoc::transform!(
+/// ```svgbob
+///              .────.
+///             │ S(n,k)│
+///              '──┬──'
+///          ╱          ╲
+///    .────▼──.    .───▼───.
+///  k·│S(n-1,k)│  │S(n-1,  │
+///    '────────'   │ k-1)   │
+///                  '───────'
+/// ```
+))]
 use genawaiter::sync::{Gen, GenBoxed};
 
 /// Stirling number of second kind.
@@ -110,6 +123,10 @@ const fn stirling2nd_recur(n: usize, k: usize) -> usize {
 ///
 /// The `set_partition_gen` function generates all possible moves in a set partition of size `n` into
 /// `k` blocks.
+///
+/// The total number of set partitions of $n$ elements into $k$ blocks is:
+///
+/// $$ S(n, k) = k \cdot S(n-1, k) + S(n-1, k-1) $$
 ///
 /// Arguments:
 ///

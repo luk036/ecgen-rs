@@ -15,11 +15,16 @@ path = "src/lib.rs"
 genawaiter = { version = "0.99.1", features = ["futures03"] }
 log = { version = "0.4.32", optional = true }
 env_logger = { version = "0.11.10", optional = true }
+svgbobdoc = { version = "0.3", optional = true, features = ["enable"] }
 
 [features]
 default = ["std"]
 std = ["dep:log", "dep:env_logger"]
 diffset = []
+doc-images = ["dep:svgbobdoc"]
+
+[package.metadata.docs.rs]
+features = ["doc-images"]
 
 [dev-dependencies]
 criterion = "0.8.2"

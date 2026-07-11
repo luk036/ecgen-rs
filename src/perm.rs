@@ -124,6 +124,58 @@ pub fn sjt_gen(n: usize) -> GenBoxed<usize> {
     })
 }
 
+/// Generate all permutations as lists using SJT algorithm
+///
+/// Unlike `sjt_gen` which yields swap indices, `sjt2` yields the actual
+/// permutation vectors directly. Each permutation is represented as a `Vec<usize>`.
+///
+/// Arguments:
+///
+/// * `n`: The number of elements to permute.
+///
+/// Returns:
+///
+/// The function `sjt2` returns a `GenBoxed<Vec<usize>>`, yielding full permutation vectors.
+///
+/// # Examples
+///
+/// ```
+/// use ecgen::sjt2;
+///
+/// let mut cnt = 0;
+/// for p in sjt2(3) {
+///     cnt += 1;
+/// }
+/// assert_eq!(cnt, 6);
+/// ```
+pub fn sjt2(n: usize) -> GenBoxed<Vec<usize>> {
+    Gen::new_boxed(|co| async move {
+        if n == 2 {
+            co.yield_(vec![0, 1]).await;
+            co.yield_(vec![1, 0]).await;
+            return;
+        }
+        let mut iter = sjt2(n - 1).into_iter();
+        while let Some(pi) = iter.next() {
+            // downward: insert n-1 at positions n-1, n-2, ..., 0
+            for i in (0..=n - 1).rev() {
+                let mut v = pi.clone();
+                v.insert(i, n - 1);
+                co.yield_(v).await;
+            }
+            // advance to next parent permutation
+            if let Some(pi2) = iter.next() {
+                // upward: insert n-1 at positions 0, 1, ..., n-1
+                for i in 0..n {
+                    let mut v = pi2.clone();
+                    v.insert(i, n - 1);
+                    co.yield_(v).await;
+                }
+            }
+        }
+    })
+}
+
 /// Generate all permutations by star transposition
 ///
 /// Ehrlich's algorithm generates all $n!$ permutations by swapping the first element
@@ -196,6 +248,16 @@ mod tests {
     fn test_sjt() {
         let mut cnt = 0;
         for _n in sjt_gen(4) {
+            cnt += 1;
+        }
+        assert_eq!(cnt, factorial(4));
+    }
+
+    #[test]
+    fn test_sjt2() {
+        let mut cnt = 0;
+        for p in sjt2(4) {
+            assert_eq!(p.len(), 4);
             cnt += 1;
         }
         assert_eq!(cnt, factorial(4));

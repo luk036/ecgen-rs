@@ -19,7 +19,6 @@ This document provides guidance for agentic coding agents operating in this repo
 | `gray_code` | Binary reflected Gray code generators |
 | `set_partition` | Set partition generators & Stirling numbers |
 | `set_bipart` | Bipartition generators & stirling2nd2 |
-| `diffset` | Difference set generation & validation |
 | `logging` | Optional logging support (feature-gated) |
 
 ---

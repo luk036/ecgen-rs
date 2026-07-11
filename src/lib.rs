@@ -6,7 +6,6 @@
 //! ## Features
 //!
 //! - `std` (default): Enables standard library support and logging
-//! - `diffset`: Enables difference set generation (optional)
 //!
 //! ## Logging
 //!
@@ -25,18 +24,16 @@
 //! ```
 
 pub mod combin;
-#[cfg(feature = "diffset")]
-pub mod diffset;
+pub mod combin_old;
 pub mod gray_code;
 pub mod perm;
 pub mod set_bipart;
 pub mod set_partition;
+pub mod set_partition_old;
 
 pub use crate::combin::{comb, emk_comb_gen};
-#[cfg(feature = "diffset")]
-pub use crate::diffset::{diffset_gen, is_diffset};
 pub use crate::gray_code::brgc_gen;
-pub use crate::perm::{ehr_gen, factorial, sjt_gen};
+pub use crate::perm::{ehr_gen, factorial, sjt2, sjt_gen};
 pub use crate::set_bipart::{set_bipart_gen, stirling2nd2};
 pub use crate::set_partition::{set_partition_gen, stirling2nd};
 

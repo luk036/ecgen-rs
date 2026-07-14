@@ -1,6 +1,4 @@
-use ecgen::{
-    brgc_gen, ehr_gen, emk_comb_gen, set_bipart_gen, set_partition_gen, sjt_gen,
-};
+use ecgen::{brgc_gen, ehr_gen, emk_comb_gen, set_bipart_gen, set_partition_gen, sjt_gen};
 
 fn main() {
     println!("=== EMK combinations ===");

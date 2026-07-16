@@ -27,7 +27,7 @@ features = ["doc-images"]
 
 [dev-dependencies]
 criterion = "0.8.2"
-quickcheck = "1.0"
+proptest = "1"
 
 [[bench]]
 name = "main"

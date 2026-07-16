@@ -4,7 +4,6 @@
 
 use proptest::prelude::*;
 
-
 #[allow(dead_code)]
 fn comb_params() -> impl Strategy<Value = (usize, usize)> {
     (1..11usize).prop_flat_map(|n| (Just(n), 0..=n))

@@ -22,8 +22,8 @@ macro_rules! bench {
 
 fn main() {
     println!(
-        "{:<30} {:>10}  {:>10}  {}",
-        "Operation", "Count", "Time", ""
+        "{:<30} {:>10}  {:>10}  ",
+        "Operation", "Count", "Time"
     );
     println!("{:-<70}", "");
 

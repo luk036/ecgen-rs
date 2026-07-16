@@ -4,23 +4,23 @@
 
 use proptest::prelude::*;
 
-use ecgen::{
-    brgc_gen, comb, ehr_gen, emk_comb_gen, factorial, set_bipart_gen, set_partition_gen, sjt_gen,
-    stirling2nd, stirling2nd2,
-};
 
+#[allow(dead_code)]
 fn comb_params() -> impl Strategy<Value = (usize, usize)> {
     (1..11usize).prop_flat_map(|n| (Just(n), 0..=n))
 }
 
+#[allow(dead_code)]
 fn perm_params() -> impl Strategy<Value = usize> {
     2..9usize
 }
 
+#[allow(dead_code)]
 fn partition_params() -> impl Strategy<Value = (usize, usize)> {
     (3..10usize).prop_flat_map(|n| (Just(n), 2..=(n - 1)))
 }
 
+#[allow(dead_code)]
 fn bipar_params() -> impl Strategy<Value = usize> {
     2..10usize
 }

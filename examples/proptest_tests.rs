@@ -2,24 +2,29 @@
 //!
 //! Run with: `cargo run --example proptest_tests`
 
+// Silence dead_code warnings for the four strategy functions below
+// (comb_params, perm_params, partition_params, bipar_params). They ARE
+// referenced inside the `proptest!` macro (e.g. `fn comb_symmetry((n, k)
+// in comb_params())`), but the macro's procedural expansion generates code
+// that rustc's dead_code analysis cannot trace back to these definitions,
+// so the lint fires a false positive.  Once proptest emits explicit calls
+// (or rustc improves cross-macro reachability) this allow can be removed.
+#![allow(dead_code)]
+
 use proptest::prelude::*;
 
-#[allow(dead_code)]
 fn comb_params() -> impl Strategy<Value = (usize, usize)> {
     (1..11usize).prop_flat_map(|n| (Just(n), 0..=n))
 }
 
-#[allow(dead_code)]
 fn perm_params() -> impl Strategy<Value = usize> {
     2..9usize
 }
 
-#[allow(dead_code)]
 fn partition_params() -> impl Strategy<Value = (usize, usize)> {
     (3..10usize).prop_flat_map(|n| (Just(n), 2..=(n - 1)))
 }
 
-#[allow(dead_code)]
 fn bipar_params() -> impl Strategy<Value = usize> {
     2..10usize
 }
@@ -97,7 +102,4 @@ proptest! {
     }
 }
 
-fn main() {
-    println!("Running proptest property-based tests for ecgen-rs...\n");
-    println!("Run `cargo test` to execute the proptest tests.");
-}
+fn main() {}

@@ -38,12 +38,6 @@ Add this to your `Cargo.toml`:
 ecgen-rs = "0.1"
 ```
 
-Or install the binary:
-
-```bash
-cargo install ecgen-rs
-```
-
 ## 📖 Usage Examples
 
 ### Generate Combinations

@@ -12,6 +12,7 @@ static LOGGER_INITIALIZED: AtomicBool = AtomicBool::new(false);
 /// # Panics
 ///
 /// Panics if a logger has already been initialized.
+#[inline]
 pub fn init_logger() {
     init_logger_with_filter("info");
 }
@@ -31,6 +32,7 @@ pub fn init_logger_with_filter(filter: &str) {
 /// Try to initialize the logger with default filter (info)
 ///
 /// Returns an error if a logger has already been initialized.
+#[inline]
 pub fn try_init_logger() -> Result<(), log::SetLoggerError> {
     try_init_logger_with_filter("info")
 }
@@ -47,6 +49,7 @@ pub fn try_init_logger_with_filter(filter: &str) -> Result<(), log::SetLoggerErr
 }
 
 /// Check if the logger has been initialized
+#[inline]
 pub fn is_logger_initialized() -> bool {
     LOGGER_INITIALIZED.load(Ordering::SeqCst)
 }
